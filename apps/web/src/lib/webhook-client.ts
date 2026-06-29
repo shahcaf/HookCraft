@@ -1,5 +1,5 @@
 import type { WebhookMessage } from '@hookcraft/shared';
-import { stripClientIds, parseWebhookUrl } from './utils';
+import { stripClientIds, cleanDiscordPayload, parseWebhookUrl } from './utils';
 
 export interface SendOptions {
   webhookUrl: string;
@@ -40,7 +40,7 @@ export async function sendWebhookMessage(opts: SendOptions): Promise<WebhookResu
   const parsed = parseWebhookUrl(webhookUrl);
   if (!parsed) return { ok: false, error: 'Invalid webhook URL format' };
 
-  const payload = stripClientIds(message as unknown as Record<string, unknown>);
+  const payload = cleanDiscordPayload(stripClientIds(message as unknown as Record<string, unknown>));
 
   try {
     const res = await fetch(buildUrl(webhookUrl, threadId, true), {
@@ -78,7 +78,7 @@ export async function editWebhookMessage(opts: EditOptions): Promise<WebhookResu
   const parsed = parseWebhookUrl(webhookUrl);
   if (!parsed) return { ok: false, error: 'Invalid webhook URL' };
 
-  const payload = stripClientIds(message as unknown as Record<string, unknown>);
+  const payload = cleanDiscordPayload(stripClientIds(message as unknown as Record<string, unknown>));
   const url = `${webhookUrl}/messages/${messageId}${threadId ? `?thread_id=${threadId}` : ''}`;
 
   try {

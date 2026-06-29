@@ -70,6 +70,29 @@ export function stripClientIds(message: Record<string, unknown>): Record<string,
   return strip(obj) as Record<string, unknown>;
 }
 
+/**
+ * Remove fields Discord would reject: empty strings, empty arrays, null/undefined.
+ * E.g. `components: []`, `avatar_url: ''` cause HTTP 400.
+ */
+export function cleanDiscordPayload(obj: Record<string, unknown>): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
+  for (const [k, v] of Object.entries(obj)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === 'string' && v.trim() === '') continue;
+    if (Array.isArray(v) && v.length === 0) continue;
+    if (Array.isArray(v)) {
+      result[k] = v.map((item) =>
+        item && typeof item === 'object' ? cleanDiscordPayload(item as Record<string, unknown>) : item
+      );
+    } else if (v && typeof v === 'object') {
+      result[k] = cleanDiscordPayload(v as Record<string, unknown>);
+    } else {
+      result[k] = v;
+    }
+  }
+  return result;
+}
+
 /** Parse a discord webhook URL and return its parts */
 export function parseWebhookUrl(url: string): { id: string; token: string } | null {
   const match = url.match(/discord\.com\/api\/webhooks\/(\d+)\/([^?]+)/);
