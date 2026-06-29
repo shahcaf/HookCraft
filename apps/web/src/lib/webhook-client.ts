@@ -54,10 +54,22 @@ export async function sendWebhookMessage(opts: SendOptions): Promise<WebhookResu
       return { ok: true, messageId: data?.id };
     }
 
-    const err = await res.json().catch(() => ({ message: res.statusText }));
-    return { ok: false, error: err.message ?? 'Unknown error', status: res.status };
+    // Read body as text first, then try to parse as JSON for proper Discord error messages
+    const text = await res.text().catch(() => '');
+    let errMsg = `HTTP ${res.status}`;
+    try {
+      const json = JSON.parse(text);
+      errMsg = json.message ?? json.error ?? errMsg;
+    } catch {
+      if (text) errMsg = text.slice(0, 200);
+    }
+    return { ok: false, error: errMsg, status: res.status };
   } catch (e) {
-    return { ok: false, error: e instanceof Error ? e.message : 'Network error' };
+    const msg = e instanceof Error ? e.message : 'Unknown error';
+    if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('fetch')) {
+      return { ok: false, error: 'Network error — check your webhook URL is valid and Discord is reachable.' };
+    }
+    return { ok: false, error: msg };
   }
 }
 

@@ -48,6 +48,15 @@ export function SendButton() {
       toast({ title: '⚠ No webhook selected', description: 'Add and select a webhook URL first.', variant: 'destructive' });
       return;
     }
+    if (selectedMode === 'send') {
+      const hasContent = message.content && message.content.trim().length > 0;
+      const hasEmbeds = message.embeds && message.embeds.length > 0;
+      const hasFiles = message.attachments && message.attachments.length > 0;
+      if (!hasContent && !hasEmbeds && !hasFiles) {
+        toast({ title: '⚠ Empty message', description: 'Add some content, an embed, or a file before sending.', variant: 'destructive' });
+        return;
+      }
+    }
     if ((selectedMode === 'edit' || selectedMode === 'delete') && !targetMessageId) {
       setMode(selectedMode);
       setShowDialog(true);
