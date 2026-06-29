@@ -1,0 +1,305 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&display=swap');
+
+@layer base {
+  :root {
+    /* Richer, deeper dark palette */
+    --background: 224 18% 8%;
+    --foreground: 215 20% 94%;
+    --card: 224 18% 11%;
+    --card-foreground: 215 20% 94%;
+    --popover: 224 18% 9%;
+    --popover-foreground: 215 20% 94%;
+    --primary: 252 87% 67%;
+    --primary-foreground: 252 87% 10%;
+    --secondary: 224 18% 16%;
+    --secondary-foreground: 215 20% 75%;
+    --muted: 224 18% 13%;
+    --muted-foreground: 215 12% 50%;
+    --accent: 252 60% 18%;
+    --accent-foreground: 252 87% 85%;
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 224 18% 17%;
+    --input: 224 18% 14%;
+    --ring: 252 87% 67%;
+    --radius: 0.75rem;
+
+    /* Glow colors */
+    --glow-primary: 252 87% 67%;
+    --glow-violet: 270 80% 65%;
+    --glow-indigo: 235 85% 65%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 50% -20%, hsl(252 87% 67% / 0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, hsl(270 80% 65% / 0.04) 0%, transparent 50%);
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { @apply bg-transparent; }
+  ::-webkit-scrollbar-thumb { @apply rounded-full; background: hsl(var(--border)); }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground) / 0.4); }
+
+  /* Selection */
+  ::selection {
+    background-color: hsl(252 87% 67% / 0.3);
+    color: hsl(var(--foreground));
+  }
+}
+
+@layer components {
+
+  /* ── Glass card ─────────────────────────────── */
+  .glass {
+    @apply backdrop-blur-xl border;
+    background: hsl(var(--card) / 0.7);
+    border-color: hsl(var(--border) / 0.6);
+  }
+  .glass-strong {
+    @apply backdrop-blur-2xl border;
+    background: hsl(var(--card) / 0.9);
+    border-color: hsl(var(--border));
+  }
+  .glass-subtle {
+    background: hsl(var(--card) / 0.4);
+    border: 1px solid hsl(var(--border) / 0.4);
+    @apply backdrop-blur-md;
+  }
+
+  /* ── Gradient text ─────────────────────────── */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #a78bfa 0%, #818cf8 40%, #c4b5fd 100%);
+  }
+  .gradient-text-warm {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #f0abfc 0%, #a78bfa 50%, #818cf8 100%);
+  }
+
+  /* ── Glow effects ──────────────────────────── */
+  .glow-primary {
+    box-shadow: 0 0 20px hsl(var(--glow-primary) / 0.25), 0 0 40px hsl(var(--glow-primary) / 0.1);
+  }
+  .glow-sm {
+    box-shadow: 0 0 10px hsl(var(--glow-primary) / 0.2);
+  }
+
+  /* ── Sidebar nav item ──────────────────────── */
+  .nav-item {
+    @apply relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
+           text-muted-foreground transition-all duration-200 cursor-pointer select-none w-full;
+  }
+  .nav-item:hover {
+    @apply text-foreground;
+    background: hsl(var(--muted) / 0.8);
+  }
+  .nav-item.active {
+    @apply text-primary;
+    background: hsl(var(--primary) / 0.12);
+    border: 1px solid hsl(var(--primary) / 0.2);
+    box-shadow: inset 0 1px 0 hsl(var(--primary) / 0.1);
+  }
+  .nav-item.active .nav-icon {
+    @apply text-primary;
+    filter: drop-shadow(0 0 6px hsl(var(--primary) / 0.6));
+  }
+  .nav-item:hover .nav-icon {
+    @apply text-foreground;
+  }
+
+  /* ── Panel header ──────────────────────────── */
+  .panel-header {
+    @apply flex items-center gap-2.5 px-4 h-12 border-b flex-shrink-0;
+    border-color: hsl(var(--border) / 0.6);
+    background: hsl(var(--card) / 0.5);
+    backdrop-filter: blur(12px);
+  }
+
+  /* ── Form controls ─────────────────────────── */
+  .field-group { @apply space-y-2; }
+  .field-label {
+    @apply text-[10px] font-bold text-muted-foreground uppercase tracking-[0.1em];
+  }
+
+  /* ── Char counter ──────────────────────────── */
+  .char-counter       { @apply text-xs text-muted-foreground tabular-nums; }
+  .char-counter.warn  { @apply text-amber-400; }
+  .char-counter.error { @apply text-red-400; }
+
+  /* ── Divider with label ─────────────────────── */
+  .divider-label {
+    @apply relative flex items-center my-3;
+  }
+  .divider-label::before, .divider-label::after {
+    @apply flex-1 h-px;
+    content: '';
+    background: hsl(var(--border) / 0.5);
+  }
+  .divider-label span {
+    @apply mx-3 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60;
+  }
+
+  /* ── Template card ──────────────────────────── */
+  .template-card {
+    @apply relative rounded-xl border cursor-pointer transition-all duration-200 overflow-hidden;
+    background: hsl(var(--card) / 0.6);
+    border-color: hsl(var(--border) / 0.5);
+  }
+  .template-card:hover {
+    @apply border-primary/30;
+    background: hsl(var(--card) / 0.9);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px hsl(var(--primary) / 0.1), 0 0 0 1px hsl(var(--primary) / 0.15);
+  }
+  .template-card:active {
+    transform: translateY(0);
+  }
+  .template-card .card-glow {
+    @apply absolute inset-x-0 top-0 h-px opacity-0 transition-opacity duration-300;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.6), transparent);
+  }
+  .template-card:hover .card-glow {
+    @apply opacity-100;
+  }
+
+  /* ── Discord preview ────────────────────────── */
+  .discord-preview {
+    background-color: #313338;
+    font-family: "gg sans", "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #dbdee1;
+    font-size: 16px;
+    line-height: 1.375;
+  }
+  .discord-message-group {
+    @apply flex gap-4 px-4 py-2 transition-colors;
+  }
+  .discord-message-group:hover {
+    background-color: rgba(0,0,0,0.06);
+  }
+  .discord-message-content {
+    font-size: 0.9375rem;
+    line-height: 1.375rem;
+    color: #dbdee1;
+  }
+  .discord-blockquote    { @apply flex border-l-4 border-[#4e5058] pl-3 my-1 text-[#dbdee1]; }
+  .discord-code-inline   { @apply bg-[#1e1f22] text-[#e3e5e8] px-1 py-0.5 rounded text-[85%] font-mono; }
+  .discord-code-block    { @apply block bg-[#1e1f22] border border-[#2b2d31] p-3 rounded-md font-mono text-sm text-[#e3e5e8] whitespace-pre-wrap my-1.5; }
+  .discord-mention       { @apply px-1.5 py-0.5 rounded-md bg-[#5865f2]/15 text-[#c9cdfb] font-medium hover:bg-[#5865f2] hover:text-white transition-colors cursor-pointer select-none text-[90%]; }
+  .discord-link          { @apply text-[#00a8fc] hover:underline cursor-pointer; }
+  .discord-timestamp     { @apply px-1 py-0.5 rounded bg-[#4e5058]/30 text-[#dbdee1] text-[85%] font-medium; }
+
+  /* ── Discord embed ─────────────────────────── */
+  .discord-embed {
+    @apply flex max-w-[520px] rounded overflow-hidden;
+    background-color: #2b2d31;
+    border-left: 4px solid;
+  }
+
+  /* ── Discord buttons ────────────────────────── */
+  .discord-btn {
+    @apply inline-flex items-center justify-center px-4 py-1.5 rounded text-sm font-medium transition-all duration-150 cursor-pointer select-none;
+    min-width: 60px; min-height: 32px;
+  }
+  .discord-btn-primary   { background-color: #5865f2; @apply hover:bg-[#4752c4]; color: white; }
+  .discord-btn-secondary { background-color: #4e5058; @apply hover:bg-[#6d6f78]; color: white; }
+  .discord-btn-success   { background-color: #248046; @apply hover:bg-[#1a6535]; color: white; }
+  .discord-btn-danger    { background-color: #da373c; @apply hover:bg-[#a92b2f]; color: white; }
+  .discord-btn-link      { background-color: #4e5058; @apply hover:bg-[#6d6f78]; color: white; }
+
+  /* ── Color swatch ──────────────────────────── */
+  .color-swatch {
+    @apply w-8 h-8 rounded-lg border-2 border-border cursor-pointer
+           transition-all hover:scale-110 hover:border-primary/50
+           focus:outline-none focus:ring-2 focus:ring-ring;
+  }
+
+  /* ── Section separator ─────────────────────── */
+  .section-sep {
+    @apply h-px my-2;
+    background: linear-gradient(90deg, transparent, hsl(var(--border) / 0.8), transparent);
+  }
+
+  /* ── Shimmer ───────────────────────────────── */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 25%,
+      hsl(var(--muted-foreground) / 0.1) 50%,
+      hsl(var(--muted)) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s linear infinite;
+  }
+
+  /* ── Pulse dot ─────────────────────────────── */
+  .pulse-dot {
+    @apply w-1.5 h-1.5 rounded-full bg-emerald-400;
+    box-shadow: 0 0 0 0 hsl(145 63% 49% / 0.7);
+    animation: pulse-ring 2s ease-out infinite;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .text-balance { text-wrap: balance; }
+
+  /* Gradient borders */
+  .border-gradient-primary {
+    position: relative;
+  }
+  .border-gradient-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.6), hsl(var(--glow-violet) / 0.3));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 hsl(145 63% 49% / 0.7); }
+  70%  { box-shadow: 0 0 0 6px hsl(145 63% 49% / 0); }
+  100% { box-shadow: 0 0 0 0 hsl(145 63% 49% / 0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-4px); }
+}
+
+@keyframes slide-in-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float     { animation: float 3s ease-in-out infinite; }
+.animate-slide-up  { animation: slide-in-up 0.3s ease-out forwards; }
