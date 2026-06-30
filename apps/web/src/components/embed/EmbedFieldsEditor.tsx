@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   DndContext,
@@ -38,10 +38,18 @@ function SortableFieldRow({ embedId, field }: FieldRowProps) {
     id: field.id,
   });
   const { updateField, removeField, duplicateField } = useMessageStore();
-  const update = useCallback(
-    (patch: Partial<EmbedField>) => updateField(embedId, field.id, patch),
-    [embedId, field.id, updateField],
-  );
+
+  // Use local state to prevent re-render glitches on every keystroke
+  const [localName, setLocalName] = useState(field.name);
+  const [localValue, setLocalValue] = useState(field.value);
+
+  const flushName = useCallback(() => {
+    updateField(embedId, field.id, { name: localName });
+  }, [embedId, field.id, localName, updateField]);
+
+  const flushValue = useCallback(() => {
+    updateField(embedId, field.id, { value: localValue });
+  }, [embedId, field.id, localValue, updateField]);
 
   return (
     <motion.div
@@ -59,7 +67,7 @@ function SortableFieldRow({ embedId, field }: FieldRowProps) {
           <GripVertical className="w-4 h-4" />
         </button>
         <span className="flex-1 text-xs text-muted-foreground font-medium truncate">
-          {field.name || 'Unnamed field'}
+          {localName || 'Unnamed field'}
         </span>
 
         {/* Inline toggle */}
@@ -67,7 +75,7 @@ function SortableFieldRow({ embedId, field }: FieldRowProps) {
           <span className="text-xs text-muted-foreground">Inline</span>
           <Switch
             checked={field.inline ?? false}
-            onCheckedChange={(v) => update({ inline: v })}
+            onCheckedChange={(v) => updateField(embedId, field.id, { inline: v })}
             className="scale-75"
           />
         </div>
@@ -94,11 +102,12 @@ function SortableFieldRow({ embedId, field }: FieldRowProps) {
       <div className="space-y-1">
         <div className="flex items-center justify-between">
           <span className="field-label text-[10px]">Name</span>
-          <CharCounter current={field.name.length} max={256} className="text-[10px]" />
+          <CharCounter current={localName.length} max={256} className="text-[10px]" />
         </div>
         <Input
-          value={field.name}
-          onChange={(e) => update({ name: e.target.value })}
+          value={localName}
+          onChange={(e) => setLocalName(e.target.value)}
+          onBlur={flushName}
           placeholder="Field name..."
           className="h-7 text-xs bg-input border-border"
           maxLength={256}
@@ -109,11 +118,12 @@ function SortableFieldRow({ embedId, field }: FieldRowProps) {
       <div className="space-y-1">
         <div className="flex items-center justify-between">
           <span className="field-label text-[10px]">Value</span>
-          <CharCounter current={field.value.length} max={1024} className="text-[10px]" />
+          <CharCounter current={localValue.length} max={1024} className="text-[10px]" />
         </div>
         <Textarea
-          value={field.value}
-          onChange={(e) => update({ value: e.target.value })}
+          value={localValue}
+          onChange={(e) => setLocalValue(e.target.value)}
+          onBlur={flushValue}
           placeholder="Field value... (supports markdown)"
           className="min-h-[56px] resize-none text-xs bg-input border-border"
           maxLength={1024}

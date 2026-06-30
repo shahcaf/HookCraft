@@ -11,6 +11,8 @@ if (!process.env.NEXTAUTH_URL) {
 const VIP_GUILD_ID = process.env.DISCORD_SUPPORT_GUILD_ID || "";
 const VIP_ROLE_ID = "1521343753879683222";
 
+
+
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET || "fallback_secret_for_dev_mode_only",
   providers: [
