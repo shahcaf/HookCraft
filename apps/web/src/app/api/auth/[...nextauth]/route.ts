@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import NextAuth, { NextAuthOptions } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 
