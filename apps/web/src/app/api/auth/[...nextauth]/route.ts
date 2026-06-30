@@ -2,8 +2,13 @@ export const dynamic = 'force-dynamic';
 import NextAuth, { NextAuthOptions } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 
+// Auto-detect URL on Netlify/Vercel if NEXTAUTH_URL is not explicitly set
+if (!process.env.NEXTAUTH_URL) {
+  if (process.env.URL) process.env.NEXTAUTH_URL = process.env.URL; // Netlify sets URL automatically
+  else if (process.env.VERCEL_URL) process.env.NEXTAUTH_URL = `https://${process.env.VERCEL_URL}`;
+}
 
-const VIP_GUILD_ID = process.env.DISCORD_SUPPORT_GUILD_ID || "YOUR_GUILD_ID"; // We will get the real one from the invite code
+const VIP_GUILD_ID = process.env.DISCORD_SUPPORT_GUILD_ID || "";
 const VIP_ROLE_ID = "1521343753879683222";
 
 export const authOptions: NextAuthOptions = {
@@ -19,7 +24,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, account }) {
       if (account) {
         token.accessToken = account.access_token;
-        if (VIP_GUILD_ID && VIP_GUILD_ID !== "YOUR_GUILD_ID" && account.access_token) {
+        if (VIP_GUILD_ID && account.access_token) {
           try {
             const res = await fetch(`https://discord.com/api/v10/users/@me/guilds/${VIP_GUILD_ID}/member`, {
               headers: { Authorization: `Bearer ${account.access_token}` }
@@ -51,7 +56,7 @@ export async function GET(req: Request, context: any) {
     return await handler(req, context);
   } catch (error: any) {
     console.error("NextAuth GET Error:", error);
-    return new Response(JSON.stringify({ error: error?.message || "Unknown error", name: error?.name }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+    return new Response(JSON.stringify({ error: error?.message || "Unknown error" }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 }
 
@@ -60,6 +65,6 @@ export async function POST(req: Request, context: any) {
     return await handler(req, context);
   } catch (error: any) {
     console.error("NextAuth POST Error:", error);
-    return new Response(JSON.stringify({ error: error?.message || "Unknown error", name: error?.name }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+    return new Response(JSON.stringify({ error: error?.message || "Unknown error" }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 }
