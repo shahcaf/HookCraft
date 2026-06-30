@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   MessageSquare, User, Layers, MousePointer2,
-  Paperclip, BarChart2, Code2, LayoutTemplate,
+  Paperclip, BarChart2, Code2, LayoutTemplate, Bot
 } from 'lucide-react';
 import { useUIStore, type ActiveSection } from '@/store/ui.store';
 import { useMessageStore } from '@/store/message.store';
@@ -18,6 +18,7 @@ const SECTIONS: { id: ActiveSection; label: string; icon: React.ElementType; hin
   { id: 'attachments', label: 'Attachments', icon: Paperclip,     hint: 'Files & images' },
   { id: 'poll',        label: 'Poll',        icon: BarChart2,     hint: 'Interactive poll' },
   { id: 'json',        label: 'JSON',        icon: Code2,         hint: 'Raw payload' },
+  { id: 'bot-hosting', label: 'Bot Hosting', icon: Bot,           hint: 'Host a bot (VIP)' },
   { id: 'templates',   label: 'Templates',   icon: LayoutTemplate, hint: 'Starter presets' },
 ];
 
@@ -117,6 +118,11 @@ export function LeftSidebar() {
               {section.id === 'templates' && (
                 <span className="text-[9px] font-bold rounded-full px-1.5 py-0.5 bg-violet-500/20 text-violet-400">
                   NEW
+                </span>
+              )}
+              {section.id === 'bot-hosting' && (
+                <span className="text-[9px] font-bold rounded-full px-1.5 py-0.5 bg-amber-500/20 text-amber-500 border border-amber-500/30">
+                  PRO
                 </span>
               )}
             </motion.button>

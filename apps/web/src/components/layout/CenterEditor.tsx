@@ -11,10 +11,11 @@ import { AttachmentEditor } from '@/components/editors/AttachmentEditor';
 import { PollEditor }       from '@/components/editors/PollEditor';
 import { JsonEditor }       from '@/components/editors/JsonEditor';
 import { TemplatesEditor }  from '@/components/editors/TemplatesEditor';
+import { BotHostingEditor } from '@/components/editors/BotHostingEditor';
 import { Button } from '@/components/ui/button';
 import {
   MessageSquare, User, Layers, MousePointer2, Paperclip,
-  BarChart2, Code2, LayoutTemplate, RotateCcw, Trash2,
+  BarChart2, Code2, LayoutTemplate, RotateCcw, Trash2, Bot
 } from 'lucide-react';
 import {
   Tooltip, TooltipContent, TooltipProvider, TooltipTrigger,
@@ -29,6 +30,7 @@ const SECTION_META: Record<string, { label: string; icon: React.ElementType; des
   attachments: { label: 'Attachments', icon: Paperclip,     description: 'Files, images & videos',   color: '#eb459e' },
   poll:        { label: 'Poll',        icon: BarChart2,     description: 'Interactive poll',          color: '#fee75c' },
   json:        { label: 'JSON Editor', icon: Code2,         description: 'Raw payload & import/export', color: '#9b59b6' },
+  'bot-hosting': { label: 'Bot Hosting', icon: Bot,         description: 'Deploy Discord bot (VIP)', color: '#f59e0b' },
   templates:   { label: 'Templates',   icon: LayoutTemplate, description: 'Starter presets & personas', color: '#a78bfa' },
 };
 
@@ -40,6 +42,7 @@ const EDITOR_MAP = {
   attachments: AttachmentEditor,
   poll:        PollEditor,
   json:        JsonEditor,
+  'bot-hosting': BotHostingEditor,
   templates:   TemplatesEditor,
 } as const;
 

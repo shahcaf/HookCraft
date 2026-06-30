@@ -9,6 +9,7 @@ export type ActiveSection =
   | 'attachments'
   | 'poll'
   | 'json'
+  | 'bot-hosting'
   | 'templates';
 
 export type SendConfirmMode = 'always' | 'never' | 'delete-only';
