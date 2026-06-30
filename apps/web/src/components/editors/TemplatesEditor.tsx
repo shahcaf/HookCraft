@@ -1116,6 +1116,715 @@ const TEMPLATES: Template[] = [
       }],
     },
   },
+
+  {
+    id: 'premium-template-welcome-pro',
+    category: 'Premium',
+    name: 'Pro Welcome Banner',
+    description: 'Stunning greeting layout featuring embedded images and server rules.',
+    icon: Users,
+    color: '#eb459e',
+    isPro: true,
+    payload: {
+      username: 'Welcome Bot',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/1.png',
+      embeds: [{
+        title: '👋 Welcome to the Server!',
+        description: 'We are thrilled to have you here. Please make sure to check out <#rules> and grab some roles in <#roles> to get started!',
+        color: 0xeb459e,
+        image: { url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop' },
+        fields: [
+          { name: '📖 Rules Check', value: 'Read guidelines to avoid moderation action.', inline: true },
+          { name: '✨ Customize Profile', value: 'Choose self-roles in the channel.', inline: true }
+        ],
+        footer: { text: 'HookCraft Community • Member Join' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-server-rules',
+    category: 'Premium',
+    name: 'Pro Rulebook Layout',
+    description: 'Clean formatted layout for displaying official community guidelines.',
+    icon: Shield,
+    color: '#ed4245',
+    isPro: true,
+    payload: {
+      username: 'Guard Bot',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/2.png',
+      embeds: [{
+        title: '⚖️ Community Rules & Guidelines',
+        description: 'By participating in this Discord, you agree to abide by the following rules. Failure to do so will result in warnings, kicks, or bans.',
+        color: 0xed4245,
+        fields: [
+          { name: '1️⃣ Be Respectful', value: 'Treat everyone with kindness. No harassment, discrimination, or hate speech.', inline: false },
+          { name: '2️⃣ No Spam or Self-Promotion', value: 'Keep discussions in their proper channels. Do not DM members with advertisements.', inline: false },
+          { name: '3️⃣ Keep Content Appropriate', value: 'Strictly no NSFW or illegal content/links in public chat channels.', inline: false }
+        ],
+        footer: { text: 'Official Guidelines • Subject to change' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-changelog-pro',
+    category: 'Premium',
+    name: 'Pro Release Logs',
+    description: 'A dark-mode optimized release log with detailed version features.',
+    icon: Code2,
+    color: '#5865f2',
+    isPro: true,
+    payload: {
+      username: 'Dev Ops',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/0.png',
+      embeds: [{
+        title: '📦 HookCraft Update v2.5.0',
+        description: 'We have deployed major optimization updates to the core editor and styling system!',
+        color: 0x5865f2,
+        fields: [
+          { name: '🚀 New Features', value: '- Full rich Markdown preview support\n- Realtime canvas synchronization\n- Support for custom dynamic variables', inline: false },
+          { name: '🔧 Bug Fixes', value: '- Fixed state loss on sidebar collapse\n- Resolved drag-and-drop delay issues', inline: false }
+        ],
+        footer: { text: 'Engine Release • Dev Team' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-live-pro',
+    category: 'Premium',
+    name: 'Pro Live Stream Alert',
+    description: 'Neon styled stream alert embed with custom thumbnail.',
+    icon: Zap,
+    color: '#eb459e',
+    isPro: true,
+    payload: {
+      username: 'Broadcast Bot',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/4.png',
+      embeds: [{
+        title: '🔴 STREAM IS LIVE NOW!',
+        description: 'Join the stream right now for some live game dev, QA sessions, and community chill!',
+        color: 0xeb459e,
+        fields: [
+          { name: '🎮 Current Game / Topic', value: 'Interactive UI Design in React', inline: true },
+          { name: '🔗 Stream Link', value: '[Watch on Twitch](https://twitch.tv)', inline: true }
+        ],
+        image: { url: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop' },
+        footer: { text: 'Live Notification • Twitch Alerts' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-faq-pro',
+    category: 'Premium',
+    name: 'Pro FAQ Section',
+    description: 'Multi-question FAQ embed layout for support channels.',
+    icon: Info,
+    color: '#fee75c',
+    isPro: true,
+    payload: {
+      username: 'FAQ Bot',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/3.png',
+      embeds: [{
+        title: '❓ Frequently Asked Questions',
+        description: 'Here are the most common questions regarding VIP membership and roles.',
+        color: 0xfee75c,
+        fields: [
+          { name: 'How do I claim my VIP templates?', value: 'Make sure your Discord account is connected to Vercel/Netlify. The roles are automatically synced.', inline: false },
+          { name: 'I updated my roles but it is still locked.', value: 'Try clicking "Switch Account" in the top bar to refresh your session.', inline: false }
+        ],
+        footer: { text: 'Helpdesk • FAQ Section' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-server-status',
+    category: 'Premium',
+    name: 'Pro Server Status',
+    description: 'System resource and network diagnostics layout.',
+    icon: BarChart3,
+    color: '#57f287',
+    isPro: true,
+    payload: {
+      username: 'SysOps Monitor',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/1.png',
+      embeds: [{
+        title: '🟢 System Status: Healthy',
+        description: 'All nodes and infrastructure services are operating normally.',
+        color: 0x57f287,
+        fields: [
+          { name: '🖥️ API Core', value: 'Online (12ms latency)', inline: true },
+          { name: '🗄️ Database Node', value: 'Healthy (0.01% load)', inline: true },
+          { name: '🔥 Websockets', value: 'Active (4,231 connections)', inline: false }
+        ],
+        footer: { text: 'Telemetry Monitor • Auto-updates' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-donation-pro',
+    category: 'Premium',
+    name: 'Pro Donation Link',
+    description: 'Supporter and funding announcement embed.',
+    icon: Heart,
+    color: '#eb459e',
+    isPro: true,
+    payload: {
+      username: 'Donation Bot',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/5.png',
+      embeds: [{
+        title: '❤️ Support Our Project',
+        description: 'We run on donations! If you want to support development and unlock features, consider donating.',
+        color: 0xeb459e,
+        fields: [
+          { name: '☕ Buy Us a Coffee', value: '[Ko-fi Link](https://ko-fi.com)', inline: true },
+          { name: '🎖️ Patreon Tiers', value: '[Patreon Link](https://patreon.com)', inline: true }
+        ],
+        footer: { text: 'Supporter Perks • Tier Levels' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-partner-pro',
+    category: 'Premium',
+    name: 'Pro Partnership embed',
+    description: 'A premium layout for displaying official community partners.',
+    icon: Users,
+    color: '#00b0f4',
+    isPro: true,
+    payload: {
+      username: 'Partner Bot',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/0.png',
+      embeds: [{
+        title: '🤝 New Community Partnership!',
+        description: 'We are proud to announce our official partnership with **DevGuild**!',
+        color: 0x00b0f4,
+        fields: [
+          { name: '🚀 Who are they?', value: 'A community of 50k+ software engineers sharing resources.', inline: false },
+          { name: '🎁 Special Perks for VIPs', value: '- 20% off all dev courses\n- Access to exclusive private channels', inline: false }
+        ],
+        footer: { text: 'Partnerships • Shared Perks' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-rules-agreement',
+    category: 'Premium',
+    name: 'Pro Rule Agreement Prompt',
+    description: 'A layout designed for onboarding channels requiring agreement verification.',
+    icon: Shield,
+    color: '#eb459e',
+    isPro: true,
+    payload: {
+      username: 'Rule Verifier',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/4.png',
+      embeds: [{
+        title: '✅ Rules Agreement Check',
+        description: 'Please react to this message or click the checkmark below to verify your account and gain access to the rest of the server.',
+        color: 0xeb459e,
+        footer: { text: 'Verification System • Onboarding' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-announcement-gradient',
+    category: 'Premium',
+    name: 'Pro Modern Gradient Alert',
+    description: 'High visibility template with bright accent color.',
+    icon: Megaphone,
+    color: '#eb459e',
+    isPro: true,
+    payload: {
+      username: 'Alert System',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/2.png',
+      embeds: [{
+        title: '🚨 ATTENTION COMMUNITY!',
+        description: 'We will be undergoing scheduled server maintenance tomorrow to perform migrations.',
+        color: 0xeb459e,
+        fields: [
+          { name: '⏰ Downtime Window', value: '04:00 - 06:00 UTC (Estimated 2 hours)', inline: false },
+          { name: '🔧 Target Tasks', value: 'Database vacuuming & SSD storage expansion.', inline: false }
+        ],
+        footer: { text: 'Infrastructure Team • Maintenance Schedule' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-patch-notes',
+    category: 'Premium',
+    name: 'Pro Patch Notes',
+    description: 'Software release notes with clean bullet points.',
+    icon: Code2,
+    color: '#5865f2',
+    isPro: true,
+    payload: {
+      username: 'Release Logs',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/1.png',
+      embeds: [{
+        title: '🛠️ Hotfix Release v2.5.1',
+        description: 'Several production bugs have been addressed in this patch.',
+        color: 0x5865f2,
+        fields: [
+          { name: '🐛 Fixed Issues', value: '- Solved crash when pasting large payloads\n- Fixed dynamic variables rendering as raw strings\n- Restored missing avatars', inline: false }
+        ],
+        footer: { text: 'Developer Hotfix • Code Patch' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-event-schedule',
+    category: 'Premium',
+    name: 'Pro Event Calendar',
+    description: 'Embed formatting for listing dates and times.',
+    icon: Calendar,
+    color: '#fee75c',
+    isPro: true,
+    payload: {
+      username: 'Events Coordinator',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/5.png',
+      embeds: [{
+        title: '📅 Community Events Schedule',
+        description: 'Check out our list of upcoming interactive community events!',
+        color: 0xfee75c,
+        fields: [
+          { name: '🎮 Gaming Night', value: 'Every Friday at 20:00 UTC', inline: true },
+          { name: '🎤 Dev AMA', value: 'Every Monday at 18:00 UTC', inline: true },
+          { name: '🏆 Coding Hackathon', value: 'Starts on 15th July (Registrations Open!)', inline: false }
+        ],
+        footer: { text: 'Server Activities • Event Team' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-suggest-box',
+    category: 'Premium',
+    name: 'Pro Suggestion Box',
+    description: 'Clean layout for feedback and voting channels.',
+    icon: Info,
+    color: '#57f287',
+    isPro: true,
+    payload: {
+      username: 'Feedback Hub',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/3.png',
+      embeds: [{
+        title: '💡 Submit a Suggestion',
+        description: 'Help us improve the server! Use the suggestion command to add yours to the queue.',
+        color: 0x57f287,
+        fields: [
+          { name: 'ℹ️ How to Vote', value: 'Use reactions to agree or disagree with community suggestions.', inline: false }
+        ],
+        footer: { text: 'Suggestions Portal • User Ideas' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-audit-logs',
+    category: 'Premium',
+    name: 'Pro Audit Log Embed',
+    description: 'Clean logging layout for moderation history.',
+    icon: Shield,
+    color: '#ed4245',
+    isPro: true,
+    payload: {
+      username: 'Security Logs',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/0.png',
+      embeds: [{
+        title: '🛡️ Moderation Log: Member Banned',
+        description: 'A member has been removed from the server for violating the Terms of Service.',
+        color: 0xed4245,
+        fields: [
+          { name: '👤 User', value: 'SpammyUser#9999 (ID: 9876543210)', inline: true },
+          { name: '🔨 Moderator', value: 'ModName#1234', inline: true },
+          { name: '📝 Reason', value: 'Repetitive advertising DMs to server members.', inline: false }
+        ],
+        footer: { text: 'Guild Guard • Security Logs' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-video-upload',
+    category: 'Premium',
+    name: 'Pro Video Alert',
+    description: 'YouTube upload layout with responsive link formatting.',
+    icon: Rocket,
+    color: '#ed4245',
+    isPro: true,
+    payload: {
+      username: 'Video Bot',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/3.png',
+      embeds: [{
+        title: '🎥 NEW YOUTUBE UPLOAD!',
+        description: 'Learn how to build Discord Webhooks from scratch using Next.js 14 in this new tutorial video.',
+        color: 0xed4245,
+        fields: [
+          { name: '🍿 Watch Video', value: '[Click Here to Watch](https://youtube.com)', inline: false }
+        ],
+        image: { url: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=800&auto=format&fit=crop' },
+        footer: { text: 'Video Upload • Tutorial Series' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-faq-vip',
+    category: 'Premium',
+    name: 'Pro Support Guide',
+    description: 'A layout with lists of resources and documentation.',
+    icon: Info,
+    color: '#5865f2',
+    isPro: true,
+    payload: {
+      username: 'Support Hub',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/4.png',
+      embeds: [{
+        title: '📚 Useful Links & Resources',
+        description: 'Find important links and docs below to help you navigate our workspace.',
+        color: 0x5865f2,
+        fields: [
+          { name: '🌐 Web Dashboard', value: '[Visit HookCraft](https://hookcraft.com)', inline: true },
+          { name: '📖 Documentation', value: '[API Docs](https://docs.hookcraft.com)', inline: true },
+          { name: '💬 Help Server', value: '[Discord Invite](https://discord.gg)', inline: false }
+        ],
+        footer: { text: 'Resources • Link Index' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-store-pro',
+    category: 'Premium',
+    name: 'Pro Store Release',
+    description: 'A shop or inventory release announcement embed.',
+    icon: Trophy,
+    color: '#fee75c',
+    isPro: true,
+    payload: {
+      username: 'Shop Release',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/0.png',
+      embeds: [{
+        title: '🛍️ NEW MERCHANDISE IS LIVE!',
+        description: 'Official HookCraft merch has dropped! Limited quantities available.',
+        color: 0xfee75c,
+        image: { url: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=800&auto=format&fit=crop' },
+        footer: { text: 'Shop Drop • Merch Release' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-member-milestone',
+    category: 'Premium',
+    name: 'Pro Milestones layout',
+    description: 'An milestone announcement banner for server stats.',
+    icon: Users,
+    color: '#57f287',
+    isPro: true,
+    payload: {
+      username: 'Milestones Bot',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/5.png',
+      embeds: [{
+        title: '🎉 10,000 MEMBERS MILESTONE!',
+        description: 'Thank you all for building this community with us! We have officially hit 10,000 members.',
+        color: 0x57f287,
+        footer: { text: 'Milestones • Server Growth' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-game-night',
+    category: 'Premium',
+    name: 'Pro Gaming Event Alert',
+    description: 'Highly thematic layout for gaming alerts.',
+    icon: Zap,
+    color: '#00b0f4',
+    isPro: true,
+    payload: {
+      username: 'Server Host',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/1.png',
+      embeds: [{
+        title: '🎮 Community Game Night Starting!',
+        description: 'Join the party in the voice channel! We are hosting a custom tournament tonight with prizes.',
+        color: 0x00b0f4,
+        fields: [
+          { name: '🔥 Featured Game', value: 'Minecraft Bedwars', inline: true },
+          { name: '🎁 Grand Prize', value: 'Custom VIP Role (1 Month)', inline: true }
+        ],
+        footer: { text: 'Gaming Nights • Event Host' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-recruitment-pro',
+    category: 'Premium',
+    name: 'Pro Recruitment Panel',
+    description: 'Professional helper application layout.',
+    icon: Code2,
+    color: '#eb459e',
+    isPro: true,
+    payload: {
+      username: 'Applications',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/2.png',
+      embeds: [{
+        title: '💼 Staff Applications Open!',
+        description: 'We are looking for dedicated moderators to join our crew! Apply if you fit the requirements.',
+        color: 0xeb459e,
+        fields: [
+          { name: '⚠️ Basic Requirements', value: '- 16+ years old\n- active on the server for 30+ days\n- clean moderation record', inline: false },
+          { name: '📝 Application Form', value: '[Apply here](https://forms.google)', inline: false }
+        ],
+        footer: { text: 'Server Staff • Recruitment' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-level-roles',
+    category: 'Premium',
+    name: 'Pro Level Rewards Info',
+    description: 'Detailed rewards list layout for server activity.',
+    icon: Trophy,
+    color: '#fee75c',
+    isPro: true,
+    payload: {
+      username: 'Level Rewards',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/0.png',
+      embeds: [{
+        title: '🏆 Level Up Rewards Guide',
+        description: 'Text in chat to earn XP and unlock special roles and perks!',
+        color: 0xfee75c,
+        fields: [
+          { name: '⭐ Level 5: Active Member', value: 'Access to image attachments in public chat.', inline: false },
+          { name: '🌟 Level 10: Veteran Client', value: 'Double voting rights on feature suggestion cards.', inline: false }
+        ],
+        footer: { text: 'Levels & Rewards • Activity perks' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-bug-report',
+    category: 'Premium',
+    name: 'Pro Bug Tracker',
+    description: 'Developer issue format layout for QA logs.',
+    icon: Code2,
+    color: '#ed4245',
+    isPro: true,
+    payload: {
+      username: 'Bug Reporter',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/3.png',
+      embeds: [{
+        title: '🪲 Issue Logged: API Router Exception',
+        description: 'An exception has been detected in the core router pipeline.',
+        color: 0xed4245,
+        fields: [
+          { name: '📁 Endpoint', value: '`GET /api/v1/users`', inline: true },
+          { name: '💣 Crash Reason', value: '`NullPointerException`', inline: true },
+          { name: '📋 Stack Trace', value: '```\nError: Connection timed out\n   at DBClient.query (db.js:42)\n   at Route.handle (route.js:12)```', inline: false }
+        ],
+        footer: { text: 'System Diagnostics • Bug Logs' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-warning-notice',
+    category: 'Premium',
+    name: 'Pro Mod Warn Notice',
+    description: 'Authoritative warning notice formatting.',
+    icon: Shield,
+    color: '#fee75c',
+    isPro: true,
+    payload: {
+      username: 'System Guard',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/4.png',
+      embeds: [{
+        title: '⚠️ Moderation Alert: Official Warning',
+        description: 'Your account has received a warning for violating community guidelines.',
+        color: 0xfee75c,
+        fields: [
+          { name: '📄 Infraction Type', value: 'Excessive spamming / capital letters', inline: true },
+          { name: '⏳ Expiry Date', value: '7 days from now', inline: true }
+        ],
+        footer: { text: 'Server Moderation System' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-mute-notice',
+    category: 'Premium',
+    name: 'Pro Mod Mute Notice',
+    description: 'Mute duration notification layout.',
+    icon: Shield,
+    color: '#e67e22',
+    isPro: true,
+    payload: {
+      username: 'Mute Coordinator',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/1.png',
+      embeds: [{
+        title: '🔇 Account Muted',
+        description: 'You have been temporarily muted in all text and voice channels.',
+        color: 0xe67e22,
+        fields: [
+          { name: '⏰ Duration', value: '24 hours', inline: true },
+          { name: '📝 Reason', value: 'Disrespectful language in public channels.', inline: true }
+        ],
+        footer: { text: 'Automoderator • Guild Guard' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-kick-notice',
+    category: 'Premium',
+    name: 'Pro Mod Kick Notice',
+    description: 'Kick action confirmation embed.',
+    icon: Shield,
+    color: '#e67e22',
+    isPro: true,
+    payload: {
+      username: 'Guild Guard',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/2.png',
+      embeds: [{
+        title: '🚪 Member Kicked from Server',
+        description: 'An account has been kicked from the community.',
+        color: 0xe67e22,
+        fields: [
+          { name: '👤 Username', value: 'BannedUser#0000', inline: true },
+          { name: '📝 Reason', value: 'Refusing to verify or accept server rules.', inline: true }
+        ],
+        footer: { text: 'Moderator Action Complete' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-ban-notice',
+    category: 'Premium',
+    name: 'Pro Mod Ban Notice',
+    description: 'Permanent ban confirmation embed.',
+    icon: Shield,
+    color: '#ed4245',
+    isPro: true,
+    payload: {
+      username: 'Security Protocol',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/3.png',
+      embeds: [{
+        title: '🔨 Permanent Ban Issued',
+        description: 'An account has been permanently banned from the network.',
+        color: 0xed4245,
+        fields: [
+          { name: '👤 User ID', value: '23456789012345', inline: true },
+          { name: '📝 Reason', value: 'Attempted account phishing and unauthorized credential requests.', inline: true }
+        ],
+        footer: { text: 'Permanent Infraction • Support Desk' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-backup-status',
+    category: 'Premium',
+    name: 'Pro Backup Logs',
+    description: 'Daily database backup logs format.',
+    icon: Code2,
+    color: '#57f287',
+    isPro: true,
+    payload: {
+      username: 'Backup Protocol',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/5.png',
+      embeds: [{
+        title: '💾 Daily Database Backup Complete',
+        description: 'Backups have been compressed and uploaded to secure cold storage.',
+        color: 0x57f287,
+        fields: [
+          { name: '📁 File Size', value: '1.2 GB', inline: true },
+          { name: '🔒 Encryption', value: 'AES-256-GCM', inline: true },
+          { name: '🌐 Target Server', value: 'AWS S3 (eu-west-1)', inline: false }
+        ],
+        footer: { text: 'Cron Scheduler • Auto-backup' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-database-alert',
+    category: 'Premium',
+    name: 'Pro DB Incident Alert',
+    description: 'Highly visible emergency system alert.',
+    icon: Zap,
+    color: '#ed4245',
+    isPro: true,
+    payload: {
+      username: 'Incident Reports',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/0.png',
+      embeds: [{
+        title: '🔴 EMERGENCY ALERT: DATABASE OFFLINE',
+        description: 'Primary replica node has lost connectivity and stopped heartbeats.',
+        color: 0xed4245,
+        fields: [
+          { name: '⚠️ Event ID', value: '#EVT-8765', inline: true },
+          { name: '💥 Status', value: 'CRITICAL SEVERITY 1', inline: true }
+        ],
+        footer: { text: 'Alertmanager Incident Alerts' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-interactive-help',
+    category: 'Premium',
+    name: 'Pro Menu Interactive Help',
+    description: 'Support directories embed formatting.',
+    icon: Info,
+    color: '#5865f2',
+    isPro: true,
+    payload: {
+      username: 'Help Bot',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/1.png',
+      embeds: [{
+        title: '📖 HookCraft Interactive Command Directory',
+        description: 'Here are the commands you can use in our Discord bot.',
+        color: 0x5865f2,
+        fields: [
+          { name: '🛠️ Utility Command', value: '`/help` - View this list\n`/ping` - Check server latency', inline: false },
+          { name: '👑 Admin Commands', value: '`/settings` - Edit parameters\n`/configure` - Setup channels', inline: false }
+        ],
+        footer: { text: 'Command Index • Help Manual' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-role-select',
+    category: 'Premium',
+    name: 'Pro Role Selector Menu',
+    description: 'Menu layout for reaction roles.',
+    icon: Star,
+    color: '#fee75c',
+    isPro: true,
+    payload: {
+      username: 'Role Selector',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/2.png',
+      embeds: [{
+        title: '🎭 Server Roles Menu',
+        description: 'Select your preferred roles below to get custom pings and access to special channels.',
+        color: 0xfee75c,
+        fields: [
+          { name: '📣 Pings / Alerts', value: 'React with 📢 for Announcement pings\nReact with 🎁 for Giveaway alerts', inline: false }
+        ],
+        footer: { text: 'Role Portal • Interactive Menu' }
+      }]
+    }
+  },
+  {
+    id: 'premium-template-partners-list',
+    category: 'Premium',
+    name: 'Pro Partners Directory',
+    description: 'A layout for listing multiple official server partnerships.',
+    icon: Users,
+    color: '#57f287',
+    isPro: true,
+    payload: {
+      username: 'Partnerships',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/3.png',
+      embeds: [{
+        title: '📋 Our Official Partners Directory',
+        description: 'Explore the amazing communities we partner with!',
+        color: 0x57f287,
+        fields: [
+          { name: '1️⃣ DevGuild', value: '[DevGuild Server](https://discord.gg)', inline: true },
+          { name: '2️⃣ DesignHub', value: '[DesignHub Server](https://discord.gg)', inline: true }
+        ],
+        footer: { text: 'Official Partnerships • Network Directory' }
+      }]
+    }
+  }
 ];
 
 // ─── Category config ──────────────────────────────────────────────────────────
