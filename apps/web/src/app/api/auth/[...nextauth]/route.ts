@@ -46,4 +46,21 @@ export const authOptions: NextAuthOptions = {
 }
 
 const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+
+export async function GET(req: Request, context: any) {
+  try {
+    return await handler(req, context);
+  } catch (error: any) {
+    console.error("NextAuth GET Error:", error);
+    return new Response(JSON.stringify({ error: error?.message || "Unknown error", name: error?.name }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+  }
+}
+
+export async function POST(req: Request, context: any) {
+  try {
+    return await handler(req, context);
+  } catch (error: any) {
+    console.error("NextAuth POST Error:", error);
+    return new Response(JSON.stringify({ error: error?.message || "Unknown error", name: error?.name }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+  }
+}
