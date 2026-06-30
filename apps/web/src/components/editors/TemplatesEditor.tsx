@@ -22,6 +22,8 @@ interface AvatarPreset {
   id: string;
   name: string;
   description: string;
+  username: string;
+  avatar_url: string;
   color: string;
   tag?: string;
   isPro?: boolean;
