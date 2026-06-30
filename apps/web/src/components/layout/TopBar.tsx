@@ -217,6 +217,14 @@ export function TopBar() {
                 Logged in as <strong className="text-foreground">{username}</strong>
               </div>
               <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={async () => { await signOut({ redirect: false }); signIn('discord'); }}
+                className="text-xs flex items-center gap-2 cursor-pointer"
+              >
+                <svg className="w-3.5 h-3.5 fill-[#5865f2]" viewBox="0 0 127.14 96.36"><path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.44,8.07C3.66,31.58-1.95,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a77.7,77.7,0,0,0,6.63-10.85,71.43,71.43,0,0,1-10.5-5A54.34,54.34,0,0,0,31,78,76.81,76.81,0,0,0,96.18,78a54.34,54.34,0,0,0,2.83,2.5,71.43,71.43,0,0,1-10.5,5,77.7,77.7,0,0,0,6.63,10.85,105.73,105.73,0,0,0,31.06-18.83C129.87,50.22,123.6,27.39,107.7,8.07Z"/></svg>
+                <span>Switch Account</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => signOut()} className="text-xs text-destructive focus:text-destructive flex items-center gap-2 cursor-pointer">
                 <LogOut className="w-3.5 h-3.5" />
                 <span>Log Out</span>
