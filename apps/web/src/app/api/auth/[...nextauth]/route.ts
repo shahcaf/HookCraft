@@ -2,14 +2,12 @@ export const dynamic = 'force-dynamic';
 import NextAuth, { NextAuthOptions } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 
-if (!process.env.NEXTAUTH_URL && process.env.VERCEL_URL) {
-  process.env.NEXTAUTH_URL = `https://${process.env.VERCEL_URL}`;
-}
 
 const VIP_GUILD_ID = process.env.DISCORD_SUPPORT_GUILD_ID || "YOUR_GUILD_ID"; // We will get the real one from the invite code
 const VIP_ROLE_ID = "1521343753879683222";
 
 export const authOptions: NextAuthOptions = {
+  trustHost: true,
   secret: process.env.NEXTAUTH_SECRET || "fallback_secret_for_dev_mode_only",
   providers: [
     DiscordProvider({
