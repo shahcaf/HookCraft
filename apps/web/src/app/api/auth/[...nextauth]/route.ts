@@ -11,7 +11,12 @@ if (!process.env.NEXTAUTH_URL) {
 const VIP_GUILD_ID = process.env.DISCORD_SUPPORT_GUILD_ID || "1459243809224392879";
 const VIP_ROLE_ID = "1521343753879683222";
 
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { prisma } from "@/lib/prisma";
+
 export const authOptions: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma) as any,
+  session: { strategy: 'jwt' },
   secret: process.env.NEXTAUTH_SECRET || "fallback_secret_for_dev_mode_only",
   providers: [
     DiscordProvider({

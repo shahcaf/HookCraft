@@ -72,17 +72,36 @@ export const useWebhookStore = create<WebhookState>()(
       addWebhook: (name, url) => {
         const id = uuidv4();
         set((s) => ({ webhooks: [...s.webhooks, { id, name, url }] }));
+        
+        fetch('/api/webhooks', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, name, url })
+        }).catch(() => {});
+
         return id;
       },
-      removeWebhook: (id) =>
+      removeWebhook: (id) => {
         set((s) => ({
           webhooks: s.webhooks.filter((w) => w.id !== id),
           activeWebhookId: s.activeWebhookId === id ? null : s.activeWebhookId,
-        })),
-      renameWebhook: (id, name) =>
+        }));
+        
+        fetch(`/api/webhooks?id=${id}`, { method: 'DELETE' }).catch(() => {});
+      },
+      renameWebhook: (id, name) => {
+        const state = get();
+        const url = state.webhooks.find(w => w.id === id)?.url || '';
         set((s) => ({
           webhooks: s.webhooks.map((w) => (w.id === id ? { ...w, name } : w)),
-        })),
+        }));
+
+        fetch('/api/webhooks', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, name, url })
+        }).catch(() => {});
+      },
       setActiveWebhook: (id) => set({ activeWebhookId: id }),
       setTargetMessageId: (id) => set({ targetMessageId: id }),
       getActiveWebhookUrl: () => {
@@ -103,20 +122,40 @@ export const useWebhookStore = create<WebhookState>()(
           updatedAt: now,
         };
         set((s) => ({ drafts: [draft, ...s.drafts], activeDraftId: id }));
+        
+        fetch('/api/drafts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, name, payload: message })
+        }).catch(() => {});
+
         return id;
       },
       loadDraft: (id) => get().drafts.find((d) => d.id === id) ?? null,
-      deleteDraft: (id) =>
+      deleteDraft: (id) => {
         set((s) => ({
           drafts: s.drafts.filter((d) => d.id !== id),
           activeDraftId: s.activeDraftId === id ? null : s.activeDraftId,
-        })),
-      renameDraft: (id, name) =>
+        }));
+        
+        fetch(`/api/drafts?id=${id}`, { method: 'DELETE' }).catch(() => {});
+      },
+      renameDraft: (id, name) => {
         set((s) => ({
           drafts: s.drafts.map((d) =>
             d.id === id ? { ...d, name, updatedAt: new Date().toISOString() } : d,
           ),
-        })),
+        }));
+
+        const draft = get().drafts.find(d => d.id === id);
+        if (draft) {
+          fetch('/api/drafts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id, name, payload: draft.message })
+          }).catch(() => {});
+        }
+      },
       duplicateDraft: (id) => {
         const draft = get().drafts.find((d) => d.id === id);
         if (!draft) return '';
