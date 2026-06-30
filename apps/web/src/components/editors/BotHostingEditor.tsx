@@ -29,29 +29,54 @@ export function BotHostingEditor() {
       toast({ title: 'Missing fields', description: 'Please fill in all fields to deploy.', variant: 'destructive' });
       return;
     }
-    if (!githubUrl.includes('github.com')) {
-      toast({ title: 'Invalid URL', description: 'Please provide a valid GitHub repository URL.', variant: 'destructive' });
+    if (!githubUrl.includes('github.com') && !githubUrl.includes('c:\\')) {
+      toast({ title: 'Invalid URL', description: 'Please provide a valid GitHub repository URL or absolute path.', variant: 'destructive' });
       return;
     }
 
     setIsDeploying(true);
+    setDeployStep(0);
     
-    // Simulate deployment steps for a premium feel
-    await new Promise(r => setTimeout(r, 1000));
-    setDeployStep(1); // Cloning
-    await new Promise(r => setTimeout(r, 1500));
-    setDeployStep(2); // Building
-    await new Promise(r => setTimeout(r, 2000));
-    setDeployStep(3); // Starting
-    await new Promise(r => setTimeout(r, 1000));
-    
-    setIsDeploying(false);
-    setIsDeployed(true);
-    toast({
-      title: 'Bot Deployed Successfully! 🚀',
-      description: 'Your bot is now running on our premium edge network.',
-      style: { background: '#10b981', color: '#fff', border: 'none' }
-    });
+    try {
+      // Step 1: Initializing & Cloning
+      setDeployStep(1);
+      
+      const res = await fetch('/api/hosting/deploy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ githubUrl, botToken })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to deploy bot');
+      }
+
+      setDeployStep(2); // Building
+      await new Promise(r => setTimeout(r, 800)); // UI delay for effect
+      
+      setDeployStep(3); // Starting process
+      await new Promise(r => setTimeout(r, 800)); // UI delay for effect
+      
+      setDeployStep(4); // Online
+      setIsDeploying(false);
+      setIsDeployed(true);
+      
+      toast({
+        title: 'Bot Deployed Successfully! 🚀',
+        description: 'Your bot is now running.',
+        style: { background: '#10b981', color: '#fff', border: 'none' }
+      });
+
+    } catch (err: any) {
+      setIsDeploying(false);
+      toast({
+        title: 'Deployment Failed',
+        description: err.message,
+        variant: 'destructive'
+      });
+    }
   };
 
   const DEPLOY_STEPS = [
