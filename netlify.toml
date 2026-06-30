@@ -11,4 +11,9 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-
+# Required for Monaco Editor web workers (SharedArrayBuffer)
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cross-Origin-Embedder-Policy = "require-corp"
