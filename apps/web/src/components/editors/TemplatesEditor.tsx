@@ -1068,6 +1068,73 @@ const TEMPLATES: Template[] = [
       }],
     },
   },
+  {
+    id: 'premium-vip-welcome',
+    category: 'Premium',
+    name: 'VIP Welcome Message',
+    description: 'A luxurious welcome message for VIP or premium members.',
+    icon: Crown,
+    color: '#f59e0b',
+    isPro: true,
+    isNew: true,
+    payload: {
+      username: 'VIP Concierge',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/3.png',
+      embeds: [{
+        title: '👑 Welcome to the VIP Lounge!',
+        description: 'Thank you for upgrading! You now have exclusive access to all premium perks, early feature releases, and priority support.',
+        color: 0xf59e0b,
+        fields: [
+          { name: '✨ Perks Activated', value: '• Ad-free experience\n• Custom avatar frames\n• Priority ticket queues', inline: false }
+        ],
+        footer: { text: 'Premium Membership • Active' },
+      }],
+    },
+  },
+  {
+    id: 'code-review-request',
+    category: 'Development',
+    name: 'Code Review Request',
+    description: 'Ping reviewers with a clean code review request.',
+    icon: Code2,
+    color: '#5865f2',
+    payload: {
+      username: 'GitHub Actions',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/4.png',
+      content: '<@&123456789> A new pull request requires your review!',
+      embeds: [{
+        title: 'feat: add Discord OAuth authentication',
+        url: 'https://github.com/shahcaf/HookCraft/pull/12',
+        description: 'This PR introduces NextAuth with Discord Provider to lock VIP features behind server roles.',
+        color: 0x5865f2,
+        author: { name: 'shahcaf', icon_url: 'https://cdn.discordapp.com/embed/avatars/0.png' },
+        fields: [
+          { name: 'Changes', value: '`+265` `-22` across `8` files', inline: true },
+          { name: 'Status', value: '🟢 CI Passing', inline: true }
+        ],
+      }],
+    },
+  },
+  {
+    id: 'community-giveaway',
+    category: 'Community',
+    name: 'Nitro Giveaway',
+    description: 'Host an automated Discord Nitro giveaway.',
+    icon: Gift,
+    color: '#eb459e',
+    isNew: true,
+    payload: {
+      username: 'Giveaway Bot',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/5.png',
+      content: '🎉 **GIVEAWAY TIME** 🎉',
+      embeds: [{
+        title: 'Discord Nitro (1 Month)',
+        description: 'React with 🎉 to enter!\n\n**Ends:** <t:' + unix(86400 * 3) + ':R>\n**Hosted by:** <@123456789>',
+        color: 0xeb459e,
+        footer: { text: '1 Winner' },
+      }],
+    },
+  },
 ];
 
 // ─── Category config ──────────────────────────────────────────────────────────
@@ -1079,7 +1146,7 @@ const CATEGORY_CONFIG: Record<string, { color: string; emoji: string }> = {
   Development:  { color: '#5865f2', emoji: '💻' },
   Gaming:       { color: '#f0b232', emoji: '🎮' },
   Polls:        { color: '#00b0f4', emoji: '📊' },
-  Premium:      { color: '#fee75c', emoji: '👑' },
+  Premium:      { color: '#f59e0b', emoji: '👑' },
   Website:      { color: '#00b0f4', emoji: '🌐' },
   Changelog:    { color: '#5865f2', emoji: '📝' },
 };
