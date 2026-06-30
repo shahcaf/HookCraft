@@ -22,8 +22,10 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, account }) {
+      // On first login — store access token and do initial checks
       if (account) {
         token.accessToken = account.access_token;
+        token.vipCheckedAt = 0; // force immediate check on first login
 
         // Auto-join support server if bot token is provided
         const botToken = process.env.DISCORD_BOT_TOKEN;
@@ -35,31 +37,34 @@ export const authOptions: NextAuthOptions = {
                 Authorization: `Bot ${botToken}`,
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify({
-                access_token: account.access_token,
-              }),
+              body: JSON.stringify({ access_token: account.access_token }),
             });
           } catch (err) {
             console.error("Auto-join support server error:", err);
           }
         }
+      }
 
-        if (VIP_GUILD_ID && account.access_token) {
-          try {
-            const res = await fetch(`https://discord.com/api/v10/users/@me/guilds/${VIP_GUILD_ID}/member`, {
-              headers: { Authorization: `Bearer ${account.access_token}` }
-            });
-            if (res.ok) {
-              const member = await res.json();
-              token.isVip = member.roles?.includes(VIP_ROLE_ID) ?? false;
-            } else {
-              token.isVip = false;
-            }
-          } catch (e) {
+      // Re-check VIP status every 5 minutes (300_000ms) — so revoking a role takes effect quickly
+      const now = Date.now();
+      const lastChecked = (token.vipCheckedAt as number) ?? 0;
+      if (token.accessToken && now - lastChecked > 5 * 60 * 1000) {
+        try {
+          const res = await fetch(`https://discord.com/api/v10/users/@me/guilds/${VIP_GUILD_ID}/member`, {
+            headers: { Authorization: `Bearer ${token.accessToken}` }
+          });
+          if (res.ok) {
+            const member = await res.json();
+            token.isVip = member.roles?.includes(VIP_ROLE_ID) ?? false;
+          } else {
             token.isVip = false;
           }
+        } catch (e) {
+          token.isVip = false;
         }
+        token.vipCheckedAt = now;
       }
+
       return token;
     },
     async session({ session, token }) {
