@@ -1,5 +1,12 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "globalEnv": [
+    "DISCORD_CLIENT_ID",
+    "DISCORD_CLIENT_SECRET",
+    "NEXTAUTH_SECRET",
+    "DISCORD_SUPPORT_GUILD_ID",
+    "NEXTAUTH_URL"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
