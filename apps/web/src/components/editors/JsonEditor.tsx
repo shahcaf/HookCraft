@@ -37,6 +37,11 @@ export function JsonEditor() {
     } catch {}
   }, [message]);
 
+  const VALID_WEBHOOK_KEYS = new Set([
+    'content', 'username', 'avatar_url', 'tts', 'embeds',
+    'components', 'attachments', 'poll', 'flags', 'thread_name',
+  ]);
+
   const [debouncedJson] = useDebounce(localJson, 400);
 
   // Sync editor → store
@@ -44,6 +49,18 @@ export function JsonEditor() {
     if (!debouncedJson) return;
     try {
       const parsed = JSON.parse(debouncedJson) as WebhookMessage;
+
+      // Check if it looks like a Discord webhook payload
+      const keys = Object.keys(parsed);
+      const hasWebhookKey = keys.some((k) => VALID_WEBHOOK_KEYS.has(k));
+
+      if (!hasWebhookKey) {
+        setParseError(
+          'Invalid webhook format. Expected keys like: content, embeds, username, avatar_url, components.'
+        );
+        return;
+      }
+
       isExternalUpdate.current = true;
       setMessage(parsed);
       setParseError(null);
@@ -68,6 +85,30 @@ export function JsonEditor() {
     URL.revokeObjectURL(url);
   }
 
+  function handleLoadExample() {
+    const example = {
+      content: "Hello from HookCraft! 👋",
+      username: "HookCraft Bot",
+      avatar_url: "https://cdn.discordapp.com/embed/avatars/0.png",
+      embeds: [
+        {
+          title: "Example Embed",
+          description: "This is what an embed looks like.",
+          color: 5765029,
+          fields: [
+            { name: "Field 1", value: "Some value", inline: true },
+            { name: "Field 2", value: "Another value", inline: true },
+          ],
+          footer: { text: "Sent via HookCraft" },
+        },
+      ],
+    };
+    isExternalUpdate.current = true;
+    setMessage(example as WebhookMessage);
+    setLocalJson(JSON.stringify(example, null, 2));
+    setParseError(null);
+  }
+
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
@@ -77,11 +118,14 @@ export function JsonEditor() {
           JSON Editor
         </span>
         {parseError && (
-          <div className="flex items-center gap-1.5 text-xs text-destructive">
-            <AlertCircle className="w-3.5 h-3.5" />
-            <span className="max-w-[200px] truncate">{parseError}</span>
+          <div className="flex items-center gap-1.5 text-xs text-destructive" title={parseError}>
+            <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+            <span className="max-w-[220px] truncate">{parseError}</span>
           </div>
         )}
+        <Button variant="ghost" size="sm" className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground" onClick={handleLoadExample}>
+          Example
+        </Button>
         <Button variant="ghost" size="icon" className="h-7 w-7" onClick={handleCopy}>
           {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
         </Button>
