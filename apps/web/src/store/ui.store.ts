@@ -11,6 +11,9 @@ export type ActiveSection =
   | 'json'
   | 'templates';
 
+export type SendConfirmMode = 'always' | 'never' | 'delete-only';
+export type PreviewTheme = 'dark' | 'light';
+
 interface UIState {
   activeSection: ActiveSection;
   activeEmbedId: string | null;
@@ -19,7 +22,13 @@ interface UIState {
   previewScale: number;
   editorFontSize: number;
   accentColor: string;
-  autosaveInterval: number; // seconds
+  autosaveInterval: number;
+  compactMode: boolean;
+  showCharCounters: boolean;
+  sendConfirmMode: SendConfirmMode;
+  previewTheme: PreviewTheme;
+  showTimestamps: boolean;
+  animationsEnabled: boolean;
 
   setActiveSection: (section: ActiveSection) => void;
   setActiveEmbedId: (id: string | null) => void;
@@ -29,6 +38,12 @@ interface UIState {
   setEditorFontSize: (size: number) => void;
   setAccentColor: (color: string) => void;
   setAutosaveInterval: (interval: number) => void;
+  setCompactMode: (v: boolean) => void;
+  setShowCharCounters: (v: boolean) => void;
+  setSendConfirmMode: (v: SendConfirmMode) => void;
+  setPreviewTheme: (v: PreviewTheme) => void;
+  setShowTimestamps: (v: boolean) => void;
+  setAnimationsEnabled: (v: boolean) => void;
 }
 
 export const useUIStore = create<UIState>()(
@@ -42,6 +57,12 @@ export const useUIStore = create<UIState>()(
       editorFontSize: 14,
       accentColor: '#5865f2',
       autosaveInterval: 30,
+      compactMode: false,
+      showCharCounters: true,
+      sendConfirmMode: 'delete-only',
+      previewTheme: 'dark',
+      showTimestamps: true,
+      animationsEnabled: true,
 
       setActiveSection: (section) => set({ activeSection: section }),
       setActiveEmbedId: (id) => set({ activeEmbedId: id }),
@@ -51,6 +72,12 @@ export const useUIStore = create<UIState>()(
       setEditorFontSize: (size) => set({ editorFontSize: size }),
       setAccentColor: (color) => set({ accentColor: color }),
       setAutosaveInterval: (interval) => set({ autosaveInterval: interval }),
+      setCompactMode: (v) => set({ compactMode: v }),
+      setShowCharCounters: (v) => set({ showCharCounters: v }),
+      setSendConfirmMode: (v) => set({ sendConfirmMode: v }),
+      setPreviewTheme: (v) => set({ previewTheme: v }),
+      setShowTimestamps: (v) => set({ showTimestamps: v }),
+      setAnimationsEnabled: (v) => set({ animationsEnabled: v }),
     }),
     {
       name: 'hookcraft-ui',
@@ -59,6 +86,12 @@ export const useUIStore = create<UIState>()(
         editorFontSize: state.editorFontSize,
         accentColor: state.accentColor,
         autosaveInterval: state.autosaveInterval,
+        compactMode: state.compactMode,
+        showCharCounters: state.showCharCounters,
+        sendConfirmMode: state.sendConfirmMode,
+        previewTheme: state.previewTheme,
+        showTimestamps: state.showTimestamps,
+        animationsEnabled: state.animationsEnabled,
       }),
     },
   ),
