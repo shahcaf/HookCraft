@@ -7,7 +7,6 @@ const VIP_GUILD_ID = process.env.DISCORD_SUPPORT_GUILD_ID || "YOUR_GUILD_ID"; //
 const VIP_ROLE_ID = "1521343753879683222";
 
 export const authOptions: NextAuthOptions = {
-  trustHost: true,
   secret: process.env.NEXTAUTH_SECRET || "fallback_secret_for_dev_mode_only",
   providers: [
     DiscordProvider({
