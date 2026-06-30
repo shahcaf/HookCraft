@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import { useSession } from 'next-auth/react';
+import { useToast } from '@/components/ui/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Sparkles, Megaphone, Bell, Shield, Star, Code2, Users,
@@ -20,10 +22,9 @@ interface AvatarPreset {
   id: string;
   name: string;
   description: string;
-  username: string;
-  avatar_url: string;
   color: string;
   tag?: string;
+  isPro?: boolean;
 }
 
 const AVATAR_PRESETS: AvatarPreset[] = [
@@ -88,6 +89,7 @@ const AVATAR_PRESETS: AvatarPreset[] = [
     avatar_url: 'https://cdn.discordapp.com/embed/avatars/1.png',
     color: '#9b59b6',
     tag: 'Dev',
+    isPro: true,
   },
   {
     id: 'support-bot',
@@ -97,6 +99,7 @@ const AVATAR_PRESETS: AvatarPreset[] = [
     avatar_url: 'https://cdn.discordapp.com/embed/avatars/0.png',
     color: '#f0b232',
     tag: 'Help',
+    isPro: true,
   },
 ];
 
@@ -1085,6 +1088,9 @@ const CATEGORIES = Object.keys(CATEGORY_CONFIG);
 export function TemplatesEditor() {
   const { setMessage } = useMessageStore();
   const { setActiveSection } = useUIStore();
+  const { data: session } = useSession();
+  const { toast } = useToast();
+  
   const [query, setQuery]             = useState('');
   const [activeCategory, setCategory] = useState('All');
   const [appliedId, setAppliedId]     = useState<string | null>(null);
@@ -1098,12 +1104,30 @@ export function TemplatesEditor() {
   }), [query, activeCategory]);
 
   function applyTemplate(template: Template) {
+    if (template.isPro && !(session as any)?.isVip) {
+      toast({
+        title: "VIP Feature Locked",
+        description: session ? "You need the VIP role in the Discord Support Server to use Pro templates." : "Please Login with Discord to use Pro templates.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setMessage(template.payload);
     setAppliedId(template.id);
     setTimeout(() => { setAppliedId(null); setActiveSection('content'); }, 1200);
   }
 
   function applyAvatar(preset: AvatarPreset) {
+    if (preset.isPro && !(session as any)?.isVip) {
+      toast({
+        title: "VIP Feature Locked",
+        description: session ? "You need the VIP role in the Discord Support Server to use Pro avatars." : "Please Login with Discord to use Pro avatars.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     const current = useMessageStore.getState().message;
     useMessageStore.getState().setMessage({
       ...current,
@@ -1332,6 +1356,9 @@ export function TemplatesEditor() {
                               >
                                 {preset.tag}
                               </span>
+                            )}
+                            {preset.isPro && (
+                              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-400 leading-none">PRO</span>
                             )}
                           </div>
                           <p className="text-[11px] text-muted-foreground mt-0.5">{preset.description}</p>

@@ -24,8 +24,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useAuthStore } from '@/store/auth.store';
-import { LogOut, LogIn } from 'lucide-react';
+import { LogOut } from 'lucide-react';
+import { useSession, signIn, signOut } from 'next-auth/react';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -33,7 +33,8 @@ import { usePathname } from 'next/navigation';
 export function TopBar() {
   const { sidebarCollapsed, setSidebarCollapsed } = useUIStore();
   const { canUndo, canRedo, undo, redo, message } = useMessageStore();
-  const { user, logout } = useAuthStore();
+  const { data: session } = useSession();
+  const user = session?.user;
   const pathname = usePathname();
 
   function handleExport() {
@@ -62,13 +63,11 @@ export function TopBar() {
   }
 
   function handleDiscordLogin() {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-    window.location.href = `${apiUrl}/auth/discord`;
+    signIn('discord');
   }
 
-  const avatarUrl = user?.avatar
-    ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
-    : undefined;
+  const avatarUrl = user?.image || undefined;
+  const username = user?.name || 'User';
 
   const navLinks = [
     { name: 'Templates', href: '/templates' },
@@ -205,20 +204,20 @@ export function TopBar() {
             <DropdownMenuTrigger asChild>
               <button className="flex items-center gap-2 p-1 pl-1.5 pr-2.5 rounded-xl bg-muted/40 border border-border/50 hover:bg-muted/60 transition-all select-none">
                 <Avatar className="w-6 h-6 ring-1 ring-primary/20">
-                  <AvatarImage src={avatarUrl} alt={user.username} />
+                  <AvatarImage src={avatarUrl} alt={username} />
                   <AvatarFallback className="text-[10px] font-bold text-white bg-primary">
-                    {user.username ? user.username[0].toUpperCase() : 'U'}
+                    {username ? username[0].toUpperCase() : 'U'}
                   </AvatarFallback>
                 </Avatar>
-                <span className="text-xs font-semibold text-foreground max-w-[100px] truncate">{user.username}</span>
+                <span className="text-xs font-semibold text-foreground max-w-[100px] truncate">{username}</span>
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48 rounded-xl shadow-lg border border-border">
               <div className="px-2 py-1.5 text-xs text-muted-foreground/80">
-                Logged in as <strong className="text-foreground">{user.username}</strong>
+                Logged in as <strong className="text-foreground">{username}</strong>
               </div>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={logout} className="text-xs text-destructive focus:text-destructive flex items-center gap-2 cursor-pointer">
+              <DropdownMenuItem onClick={() => signOut()} className="text-xs text-destructive focus:text-destructive flex items-center gap-2 cursor-pointer">
                 <LogOut className="w-3.5 h-3.5" />
                 <span>Log Out</span>
               </DropdownMenuItem>

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { Footer } from '@/components/layout/Footer';
+import { AuthProvider } from '@/components/providers/AuthProvider';
 import './globals.css';
 
 const inter = Inter({
@@ -32,13 +33,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
       <body className="min-h-screen bg-background font-sans antialiased flex flex-col">
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-          <main className="flex-1 flex flex-col min-h-0 relative">
-            {children}
-          </main>
-          <Footer />
-          <Toaster />
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+            <main className="flex-1 flex flex-col min-h-0 relative">
+              {children}
+            </main>
+            <Footer />
+            <Toaster />
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );
