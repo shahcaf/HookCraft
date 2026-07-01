@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "npx next dev --port 3000",
-    "build": "prisma generate && next build",
+    "build": "npx prisma generate && next build",
+    "postinstall": "npx prisma generate",
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
