@@ -26,11 +26,22 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, account }) {
+    async jwt({ token, account, profile }) {
       // On first login — store access token and do initial checks
       if (account) {
         token.accessToken = account.access_token;
         token.vipCheckedAt = 0; // force immediate check on first login
+
+        // Store Discord avatar from profile
+        if (profile) {
+          const discordProfile = profile as any;
+          if (discordProfile.avatar && discordProfile.id) {
+            token.picture = `https://cdn.discordapp.com/avatars/${discordProfile.id}/${discordProfile.avatar}.png?size=128`;
+          }
+          if (discordProfile.global_name || discordProfile.username) {
+            token.name = discordProfile.global_name || discordProfile.username;
+          }
+        }
 
         // Auto-join support server if bot token is provided
         const botToken = process.env.DISCORD_BOT_TOKEN;
@@ -74,10 +85,20 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       (session as any).isVip = token.isVip;
+      // Ensure Discord avatar is always used if available
+      if (token.picture) {
+        session.user = session.user ?? {};
+        (session.user as any).image = token.picture;
+      }
+      if (token.name) {
+        session.user = session.user ?? {};
+        (session.user as any).name = token.name;
+      }
       return session;
     }
   }
 }
+
 
 const handler = NextAuth(authOptions);
 

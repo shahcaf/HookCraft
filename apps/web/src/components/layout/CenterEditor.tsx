@@ -12,11 +12,17 @@ import { PollEditor }       from '@/components/editors/PollEditor';
 import { JsonEditor }       from '@/components/editors/JsonEditor';
 import { TemplatesEditor }  from '@/components/editors/TemplatesEditor';
 import { AiGeneratorEditor } from '@/components/editors/AiGeneratorEditor';
+import { StaffApplyEditor } from '@/components/editors/StaffApplyEditor';
+import { SchedulerEditor }  from '@/components/editors/SchedulerEditor';
+import { AnalyticsEditor }  from '@/components/editors/AnalyticsEditor';
+import { HistoryEditor }    from '@/components/editors/HistoryEditor';
 import { Button } from '@/components/ui/button';
 import {
   MessageSquare, User, Layers, MousePointer2, Paperclip,
-  BarChart2, Code2, LayoutTemplate, RotateCcw, Trash2, Wand2
+  BarChart2, Code2, LayoutTemplate, RotateCcw, Trash2, Wand2,
+  Users, Calendar, BarChart3, History,
 } from 'lucide-react';
+
 import {
   Tooltip, TooltipContent, TooltipProvider, TooltipTrigger,
 } from '@/components/ui/tooltip';
@@ -31,19 +37,28 @@ const SECTION_META: Record<string, { label: string; icon: React.ElementType; des
   poll:        { label: 'Poll',        icon: BarChart2,     description: 'Interactive poll',          color: '#fee75c' },
   json:        { label: 'JSON Editor', icon: Code2,         description: 'Raw payload & import/export', color: '#9b59b6' },
   'ai-generator': { label: 'AI Generator', icon: Wand2,         description: 'AI-powered message creation', color: '#10b981' },
+  'staff-apply':  { label: 'Staff Apply',  icon: Users,         description: 'Apply for Discord or Media staff', color: '#eb459e' },
   templates:   { label: 'Templates',   icon: LayoutTemplate, description: 'Starter presets & personas', color: '#a78bfa' },
+  scheduler:   { label: 'Scheduler',   icon: Calendar,       description: 'Schedule webhook delivery', color: '#f0b232' },
+  analytics:   { label: 'Analytics',   icon: BarChart3,      description: 'Delivery statistics', color: '#57f287' },
+  history:     { label: 'History',     icon: History,        description: 'Webhook delivery log', color: '#9b59b6' },
 };
 
+
 const EDITOR_MAP = {
-  content:     ContentEditor,
-  profile:     ProfileEditor,
-  embeds:      EmbedListEditor,
-  components:  ComponentsEditor,
-  attachments: AttachmentEditor,
-  poll:        PollEditor,
-  json:        JsonEditor,
+  content:       ContentEditor,
+  profile:       ProfileEditor,
+  embeds:        EmbedListEditor,
+  components:    ComponentsEditor,
+  attachments:   AttachmentEditor,
+  poll:          PollEditor,
+  json:          JsonEditor,
   'ai-generator': AiGeneratorEditor,
-  templates:   TemplatesEditor,
+  'staff-apply': StaffApplyEditor,
+  templates:     TemplatesEditor,
+  scheduler:     SchedulerEditor,
+  analytics:     AnalyticsEditor,
+  history:       HistoryEditor,
 } as const;
 
 export function CenterEditor() {

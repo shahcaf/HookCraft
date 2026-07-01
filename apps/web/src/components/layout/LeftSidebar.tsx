@@ -3,7 +3,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   MessageSquare, User, Layers, MousePointer2,
-  Paperclip, BarChart2, Code2, LayoutTemplate, Wand2
+  Paperclip, BarChart2, Code2, LayoutTemplate, Wand2,
+  Calendar, BarChart3, History, Users,
 } from 'lucide-react';
 import { useUIStore, type ActiveSection } from '@/store/ui.store';
 import { useMessageStore } from '@/store/message.store';
@@ -19,6 +20,10 @@ const SECTIONS: { id: ActiveSection; label: string; icon: React.ElementType; hin
   { id: 'poll',        label: 'Poll',        icon: BarChart2,     hint: 'Interactive poll' },
   { id: 'json',        label: 'JSON',        icon: Code2,         hint: 'Raw payload' },
   { id: 'ai-generator',label: 'AI Generator',icon: Wand2,         hint: 'Generate messages' },
+  { id: 'staff-apply', label: 'Staff Apply',  icon: Users,         hint: 'Apply to join the team' },
+  { id: 'scheduler',   label: 'Scheduler',   icon: Calendar,      hint: 'Schedule triggers' },
+  { id: 'analytics',   label: 'Analytics',   icon: BarChart3,     hint: 'Webhook metrics' },
+  { id: 'history',     label: 'History',     icon: History,       hint: 'Delivery logs' },
   { id: 'templates',   label: 'Templates',   icon: LayoutTemplate, hint: 'Starter presets' },
 ];
 
@@ -83,7 +88,18 @@ export function LeftSidebar() {
                   {badge}
                 </span>
               )}
+              {section.id === 'ai-generator' && (
+                <span className="text-[9px] font-bold rounded-full px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                  AI
+                </span>
+              )}
+              {section.id === 'staff-apply' && (
+                <span className="text-[9px] font-bold rounded-full px-1.5 py-0.5 bg-pink-500/20 text-pink-400 border border-pink-500/30">
+                  NEW
+                </span>
+              )}
             </motion.button>
+
           );
         })}
       </nav>

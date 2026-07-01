@@ -26,7 +26,8 @@ const MODE_CONFIG = {
 
 export function SendButton() {
   const { message } = useMessageStore();
-  const { activeWebhookId, getActiveWebhookUrl, targetMessageId, setTargetMessageId, setSending, setLastError, recordSent, isSending } = useWebhookStore();
+  const { activeWebhookId, webhooks, getActiveWebhookUrl, targetMessageId, setTargetMessageId, setSending, setLastError, recordSent, isSending } = useWebhookStore();
+
   const { toast } = useToast();
   const [status, setStatus]               = useState<'idle' | 'success' | 'error'>('idle');
   const [mode, setMode]                   = useState<SendMode>('send');
@@ -66,6 +67,7 @@ export function SendButton() {
     setSending(true);
     setLastError(null);
 
+    const startTime = Date.now();
     let result;
     if (selectedMode === 'send') {
       result = await sendWebhookMessage({ webhookUrl, message });
@@ -74,8 +76,18 @@ export function SendButton() {
     } else {
       result = await deleteWebhookMessage({ webhookUrl, messageId: targetMessageId });
     }
+    const latency = Date.now() - startTime;
 
     setSending(false);
+
+    const activeName = webhooks.find((w) => w.id === activeWebhookId)?.name ?? 'Unnamed Webhook';
+    useWebhookStore.getState().recordSentLog({
+      webhookName: activeName,
+      webhookUrl,
+      payload: { ...message },
+      status: result.ok ? 'success' : 'error',
+      latency,
+    });
 
     if (result.ok) {
       setStatus('success');

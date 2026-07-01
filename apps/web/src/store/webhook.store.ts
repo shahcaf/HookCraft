@@ -9,6 +9,16 @@ interface SavedWebhookLocal {
   url: string;
 }
 
+export interface SentWebhookLog {
+  id: string;
+  webhookName: string;
+  webhookUrl: string;
+  timestamp: string;
+  payload: WebhookMessage;
+  status: 'success' | 'error';
+  latency: number;
+}
+
 interface WebhookState {
   // ── Active webhook
   activeWebhookId: string | null;
@@ -26,6 +36,7 @@ interface WebhookState {
   isSending: boolean;
   lastSentAt: string | null;
   lastError: string | null;
+  history: SentWebhookLog[];
 
   // ── Webhook actions
   addWebhook: (name: string, url: string) => string;
@@ -53,6 +64,8 @@ interface WebhookState {
   setSending: (sending: boolean) => void;
   setLastError: (error: string | null) => void;
   recordSent: () => void;
+  recordSentLog: (log: Omit<SentWebhookLog, 'id' | 'timestamp'>) => void;
+  clearHistory: () => void;
 }
 
 export const useWebhookStore = create<WebhookState>()(
@@ -67,6 +80,7 @@ export const useWebhookStore = create<WebhookState>()(
       isSending: false,
       lastSentAt: null,
       lastError: null,
+      history: [],
 
       // ── Webhooks
       addWebhook: (name, url) => {
@@ -196,6 +210,15 @@ export const useWebhookStore = create<WebhookState>()(
       setSending: (isSending) => set({ isSending }),
       setLastError: (lastError) => set({ lastError }),
       recordSent: () => set({ lastSentAt: new Date().toISOString(), lastError: null }),
+      recordSentLog: (log) => {
+        const newLog: SentWebhookLog = {
+          ...log,
+          id: uuidv4(),
+          timestamp: new Date().toISOString(),
+        };
+        set((s) => ({ history: [newLog, ...s.history].slice(0, 100) })); // limit to last 100 entries
+      },
+      clearHistory: () => set({ history: [] }),
     }),
     {
       name: 'hookcraft-webhooks',
@@ -205,6 +228,7 @@ export const useWebhookStore = create<WebhookState>()(
         drafts: state.drafts,
         templates: state.templates,
         activeDraftId: state.activeDraftId,
+        history: state.history,
       }),
     },
   ),

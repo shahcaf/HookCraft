@@ -10,6 +10,10 @@ export type ActiveSection =
   | 'poll'
   | 'json'
   | 'ai-generator'
+  | 'staff-apply'
+  | 'scheduler'
+  | 'analytics'
+  | 'history'
   | 'templates';
 
 export type SendConfirmMode = 'always' | 'never' | 'delete-only';
