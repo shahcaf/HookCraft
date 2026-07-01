@@ -48,7 +48,7 @@ export function Footer() {
 
           <div className="flex flex-col gap-2">
             <h3 className="font-semibold text-foreground">Legal</h3>
-            <Link href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Privacy Policy</Link>
+            <Link href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Privacy Policy</Link>
             <Link href="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Terms of Service</Link>
           </div>
         </div>

@@ -1824,8 +1824,235 @@ const TEMPLATES: Template[] = [
         footer: { text: 'Official Partnerships • Network Directory' }
       }]
     }
+  },
+  {
+    id: 'new-improved-community-announcement',
+    category: 'Community',
+    name: '🌟 Community Hub Announcement',
+    description: 'A beautiful event / server updates newsletter layout for community engagement.',
+    icon: Users,
+    color: '#57f287',
+    isNew: true,
+    payload: {
+      username: 'Community Highlights',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/0.png',
+      embeds: [{
+        title: '🌟 Server Highlights & Weekly News',
+        description: 'Hey everyone! Here is a recap of what happened in our community this week, plus upcoming events you won\'t want to miss.',
+        color: 5765029,
+        thumbnail: { url: 'https://cdn.discordapp.com/embed/avatars/0.png' },
+        fields: [
+          { name: '🎉 Active Projects', value: 'We started testing our new web app features. Check out <#announcements> for sneak peeks!', inline: false },
+          { name: '🔥 Event: Game Night', value: 'Join us on Saturday at 8 PM UTC for some party games in Voice Channels!', inline: true },
+          { name: '🏆 Top Contributor', value: 'Shoutout to **@Shachaf** for helping members in general chat this week!', inline: true }
+        ],
+        footer: { text: 'HookCraft Community Updates' },
+        timestamp: ts()
+      }]
+    }
+  },
+  {
+    id: 'new-improved-announcements-sneakpeek',
+    category: 'Announcements',
+    name: '🚀 Feature Launch Announcement',
+    description: 'Beautiful product launch and feature update card with modern gradients.',
+    icon: Megaphone,
+    color: '#fee75c',
+    isNew: true,
+    payload: {
+      username: 'Product Announcements',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/1.png',
+      embeds: [{
+        title: '🚀 Introducing AI Message Generator!',
+        description: 'Write custom webhooks in seconds! Powered by Groq Llama 3.3, you can now generate beautiful payloads using natural language prompts.',
+        color: 16776960,
+        fields: [
+          { name: '⚡ Ultra Fast', value: 'Powered by Groq inference engine under 200ms.', inline: true },
+          { name: '🎭 Custom Tones', value: 'Choose from Professional, Casual, Urgent, and Hype.', inline: true },
+          { name: '📖 How to start', value: 'Go to the **AI Generator** tab in the sidebar, choose a prompt, and hit generate!', inline: false }
+        ],
+        image: { url: 'https://picsum.photos/600/200?random=ai' },
+        footer: { text: 'New feature rollout • HookCraft v2.4' },
+        timestamp: ts()
+      }]
+    }
+  },
+  {
+    id: 'new-improved-operations-security',
+    category: 'Operations',
+    name: '⚙️ Security Audit & Health Log',
+    description: 'Clean logs template for server administrators and security audit systems.',
+    icon: Shield,
+    color: '#ed4245',
+    isNew: true,
+    payload: {
+      username: 'Security Services',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/4.png',
+      embeds: [{
+        title: '🛡️ Automated Server Security Report',
+        description: 'The weekly automated security analysis has finished with clean marks.',
+        color: 3066993,
+        fields: [
+          { name: '🔍 Scan Target', value: 'Production Database cluster (CockroachDB)', inline: true },
+          { name: '🟢 Health Status', value: '100% Secure (0 vulnerabilities)', inline: true },
+          { name: '🔑 SSL Certificate', value: 'Validated & Auto-renewed (Expires in 89 days)', inline: false }
+        ],
+        footer: { text: 'HookCraft Ops • Security Daemon' },
+        timestamp: ts()
+      }]
+    }
+  },
+  {
+    id: 'new-improved-development-github',
+    category: 'Development',
+    name: '💻 GitHub Release & Build Status',
+    description: 'Professional release note card for software updates and dev logs.',
+    icon: Code2,
+    color: '#5865f2',
+    isNew: true,
+    payload: {
+      username: 'GitHub Integrations',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/2.png',
+      embeds: [{
+        title: '📦 New Release: v2.4.0-prod',
+        description: 'New production build deployed successfully to Netlify Cloud.',
+        color: 5814783,
+        fields: [
+          { name: '🌿 Git Branch', value: '`main`', inline: true },
+          { name: '📝 Commit Hash', value: '`97e609f`', inline: true },
+          { name: '🛠️ Changes', value: '- Added Groq Llama-3.3 integration\n- Redesigned color picker theme logic\n- Optimized database connection pooling', inline: false }
+        ],
+        footer: { text: 'GitHub Actions • Deploy Hook' },
+        timestamp: ts()
+      }]
+    }
+  },
+  {
+    id: 'new-improved-gaming-tournament',
+    category: 'Gaming',
+    name: '🎮 Tournament Bracket & Match Card',
+    description: 'Dynamic layout for gaming tournaments, match announcements, and stats.',
+    icon: Gamepad2,
+    color: '#f0b232',
+    isNew: true,
+    payload: {
+      username: 'Esports Coordinators',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/5.png',
+      embeds: [{
+        title: '🏆 Weekend Championship Series - Finals',
+        description: 'The final matchup of our seasonal tournament is about to begin! Who will claim the ultimate title?',
+        color: 15105570,
+        fields: [
+          { name: '🔴 Team A', value: '**Alpha Predators** (Seed #1)', inline: true },
+          { name: '🔵 Team B', value: '**Cyber Sentinels** (Seed #3)', inline: true },
+          { name: '🕒 Match Time', value: `<t:${unix(3600)}:F>`, inline: false }
+        ],
+        footer: { text: 'Gaming Division • Good Luck Teams' },
+        timestamp: ts()
+      }]
+    }
+  },
+  {
+    id: 'new-improved-polls-voting',
+    category: 'Polls',
+    name: '📊 Feature Voting Interactive Poll',
+    description: 'Perfect format for community voting and request feedback loops.',
+    icon: BarChart3,
+    color: '#00b0f4',
+    isNew: true,
+    payload: {
+      username: 'Community Polls',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/0.png',
+      embeds: [{
+        title: '📊 Poll: What feature should we prioritize next?',
+        description: 'React below to cast your vote! Every vote counts towards the next milestone.',
+        color: 3447003,
+        fields: [
+          { name: '1️⃣ Automated Scheduler', value: 'Schedule webhooks to trigger at specific times.', inline: false },
+          { name: '2️⃣ Latency Analytics', value: 'Track webhook status, latency, and success rates.', inline: false }
+        ],
+        footer: { text: 'Feedback Loop • Closes in 24 hours' },
+        timestamp: ts()
+      }]
+    }
+  },
+  {
+    id: 'new-improved-premium-welcome',
+    category: 'Premium',
+    name: '👑 Pro Club Member Benefits Card',
+    description: 'Extremely premium look for inviting users to purchase VIP status.',
+    icon: Crown,
+    color: '#fee75c',
+    isNew: true,
+    isPro: true,
+    payload: {
+      username: 'VIP Club Benefits',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/3.png',
+      embeds: [{
+        title: '👑 Unlock HookCraft VIP Perks Today!',
+        description: 'Support HookCraft and get access to exclusive premium tools that supercharge your workflow.',
+        color: 15844367,
+        fields: [
+          { name: '⭐ Pre-made Avatars', value: 'Access to 20+ custom premium bot identities.', inline: true },
+          { name: '🔥 Pro Templates', value: '15+ high-fidelity template designs.', inline: true },
+          { name: '🎗️ Support Server Role', value: 'Get your custom role and priority support chat.', inline: false }
+        ],
+        footer: { text: 'HookCraft VIP Club Benefits' },
+        timestamp: ts()
+      }]
+    }
+  },
+  {
+    id: 'new-improved-website-signup',
+    category: 'Website',
+    name: '🌐 New Sign-Up Notification Alert',
+    description: 'Clean webhook layout for monitoring active signups on user sites.',
+    icon: Globe,
+    color: '#00b0f4',
+    isNew: true,
+    payload: {
+      username: 'User Services Monitoring',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/2.png',
+      embeds: [{
+        title: '👤 New User Registered',
+        description: 'A new user has just registered on the main platform website.',
+        color: 1752220,
+        fields: [
+          { name: '📧 Email Address', value: '`user***@domain.com`', inline: true },
+          { name: '🌍 Region', value: 'North America (US)', inline: true },
+          { name: '⚡ Account Tier', value: 'Free Plan', inline: false }
+        ],
+        footer: { text: 'Monitoring Services • HookCraft Web' },
+        timestamp: ts()
+      }]
+    }
+  },
+  {
+    id: 'new-improved-changelog-patchnotes',
+    category: 'Changelog',
+    name: '📝 Release Patch Notes Update',
+    description: 'Perfect format for detailing bugs resolved and minor update releases.',
+    icon: Code2,
+    color: '#5865f2',
+    isNew: true,
+    payload: {
+      username: 'Release Management',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/1.png',
+      embeds: [{
+        title: '📝 HookCraft Update: Patch v2.4.1',
+        description: 'Here are the bug fixes and quality-of-life adjustments live in this release.',
+        color: 10181046,
+        fields: [
+          { name: '✨ Features', value: '- Added Groq Llama 3.3 integration\n- Added real changelog history page\n- Live custom accent color adjustments', inline: false },
+          { name: '🐛 Bug Fixes', value: '- Fixed build crashes on stale route validation\n- Patched type mismatch in dropdown elements', inline: false }
+        ],
+        footer: { text: 'Release Daemon • Patch Logs' },
+        timestamp: ts()
+      }]
+    }
   }
 ];
+
 
 // ─── Category config ──────────────────────────────────────────────────────────
 const CATEGORY_CONFIG: Record<string, { color: string; emoji: string }> = {

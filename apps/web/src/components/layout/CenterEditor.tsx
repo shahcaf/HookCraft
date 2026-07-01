@@ -48,6 +48,8 @@ const EDITOR_MAP = {
 
 export function CenterEditor() {
   const activeSection = useUIStore((s) => s.activeSection);
+  const compactMode = useUIStore((s) => s.compactMode);
+  const animationsEnabled = useUIStore((s) => s.animationsEnabled);
   const { undo, canUndo, redo, canRedo } = useMessageStore();
   const ActiveEditor  = EDITOR_MAP[activeSection];
   const meta          = SECTION_META[activeSection];
@@ -60,7 +62,7 @@ export function CenterEditor() {
   }
 
   return (
-    <div className="flex flex-col h-full overflow-hidden">
+    <div className={cn("flex flex-col h-full overflow-hidden", compactMode && "compact-mode")}>
       {/* ── Panel header ── */}
       <TooltipProvider delayDuration={400}>
         <div className="panel-header justify-between flex-shrink-0">
@@ -108,10 +110,10 @@ export function CenterEditor() {
       <AnimatePresence mode="wait">
         <motion.div
           key={activeSection}
-          initial={{ opacity: 0, x: 10 }}
+          initial={animationsEnabled ? { opacity: 0, x: 10 } : undefined}
           animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -10 }}
-          transition={{ duration: 0.16, ease: [0.4, 0, 0.2, 1] }}
+          exit={animationsEnabled ? { opacity: 0, x: -10 } : undefined}
+          transition={animationsEnabled ? { duration: 0.16, ease: [0.4, 0, 0.2, 1] } : { duration: 0 }}
           className="flex-1 overflow-y-auto"
         >
           <ActiveEditor />

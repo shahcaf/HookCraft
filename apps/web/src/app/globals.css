@@ -312,3 +312,31 @@
 
 .animate-float     { animation: float 3s ease-in-out infinite; }
 .animate-slide-up  { animation: slide-in-up 0.3s ease-out forwards; }
+
+/* Compact Mode UI Overrides */
+.compact-mode .p-4 {
+  padding: 0.65rem !important;
+}
+.compact-mode .p-5 {
+  padding: 0.75rem !important;
+}
+.compact-mode .space-y-4 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 0.65rem !important;
+}
+.compact-mode .space-y-5 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 0.75rem !important;
+}
+.compact-mode .py-3 {
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}
+.compact-mode .py-2\.5 {
+  padding-top: 0.4rem !important;
+  padding-bottom: 0.4rem !important;
+}
+.compact-mode .gap-3 {
+  gap: 0.5rem !important;
+}
+.compact-mode .gap-2\.5 {
+  gap: 0.4rem !important;
+}

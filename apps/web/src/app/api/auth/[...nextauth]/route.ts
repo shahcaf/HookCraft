@@ -50,10 +50,10 @@ export const authOptions: NextAuthOptions = {
         }
       }
 
-      // Re-check VIP status every 5 minutes (300_000ms) — so revoking a role takes effect quickly
+      // Re-check VIP status every 1 second — so revoking/granting a role takes effect instantly
       const now = Date.now();
       const lastChecked = (token.vipCheckedAt as number) ?? 0;
-      if (token.accessToken && now - lastChecked > 5 * 60 * 1000) {
+      if (token.accessToken && now - lastChecked > 1000) {
         try {
           const res = await fetch(`https://discord.com/api/v10/users/@me/guilds/${VIP_GUILD_ID}/member`, {
             headers: { Authorization: `Bearer ${token.accessToken}` }
