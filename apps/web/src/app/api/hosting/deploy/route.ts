@@ -4,8 +4,7 @@ import { promisify } from 'util';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
-import unzipper from 'unzipper';
-import { pipeline } from 'stream/promises';
+import AdmZip from 'adm-zip';
 
 const execAsync = promisify(exec);
 
@@ -40,11 +39,11 @@ export async function POST(req: Request) {
 
         // Extract ZIP
         const tempZipPath = path.join(os.tmpdir(), `${deployId}.zip`);
-        await pipeline(res.body as any, fs.createWriteStream(tempZipPath));
+        const buffer = Buffer.from(await res.arrayBuffer());
+        fs.writeFileSync(tempZipPath, buffer);
         
-        await fs.createReadStream(tempZipPath)
-          .pipe(unzipper.Extract({ path: hostDir }))
-          .promise();
+        const zip = new AdmZip(tempZipPath);
+        zip.extractAllTo(hostDir, true);
           
         fs.unlinkSync(tempZipPath);
 

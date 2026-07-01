@@ -37,6 +37,7 @@
     "@radix-ui/react-tabs": "^1.1.4",
     "@radix-ui/react-toast": "^1.2.7",
     "@radix-ui/react-tooltip": "^1.2.0",
+    "adm-zip": "^0.5.18",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -53,7 +54,6 @@
     "react-use": "^17.6.0",
     "tailwind-merge": "^3.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "unzipper": "^0.12.5",
     "use-debounce": "^10.0.4",
     "uuid": "^11.1.0",
     "zod": "^3.23.8",
@@ -62,6 +62,7 @@
   "devDependencies": {
     "@hookcraft/shared": "*",
     "@netlify/plugin-nextjs": "^5.15.12",
+    "@types/adm-zip": "^0.5.8",
     "@types/node": "^22.15.29",
     "@types/react": "19.1.6",
     "@types/react-dom": "19.1.5",
