@@ -4,6 +4,8 @@ import { promisify } from 'util';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
+import unzipper from 'unzipper';
+import { pipeline } from 'stream/promises';
 
 const execAsync = promisify(exec);
 
@@ -22,17 +24,43 @@ export async function POST(req: Request) {
     // Ensure parent dir exists
     fs.mkdirSync(path.join(os.tmpdir(), 'hookcraft_bots'), { recursive: true });
 
-    // Step 1: Clone the repository or copy local folder
+    // Step 1: Download or copy repository
     try {
       if (githubUrl.toLowerCase().startsWith('c:\\') || githubUrl.toLowerCase().startsWith('d:\\')) {
         // Copy local folder for local hosting
         await execAsync(`xcopy "${githubUrl}" "${hostDir}\\" /E /I /H /Y`);
       } else {
-        // Normal Git clone
-        await execAsync(`git clone ${githubUrl} ${hostDir}`);
+        // Normal GitHub URL -> Download ZIP to avoid needing 'git' installed
+        let repoUrl = githubUrl;
+        if (repoUrl.endsWith('.git')) repoUrl = repoUrl.slice(0, -4);
+        
+        const zipUrl = `${repoUrl}/archive/HEAD.zip`;
+        const res = await fetch(zipUrl);
+        if (!res.ok) throw new Error(`Failed to download repository: ${res.statusText}`);
+
+        // Extract ZIP
+        const tempZipPath = path.join(os.tmpdir(), `${deployId}.zip`);
+        await pipeline(res.body as any, fs.createWriteStream(tempZipPath));
+        
+        await fs.createReadStream(tempZipPath)
+          .pipe(unzipper.Extract({ path: hostDir }))
+          .promise();
+          
+        fs.unlinkSync(tempZipPath);
+
+        // GitHub zips put everything inside a subfolder (repo-main)
+        const extractedFolders = fs.readdirSync(hostDir);
+        if (extractedFolders.length === 1 && fs.statSync(path.join(hostDir, extractedFolders[0])).isDirectory()) {
+          const innerFolder = path.join(hostDir, extractedFolders[0]);
+          const filesToMove = fs.readdirSync(innerFolder);
+          for (const file of filesToMove) {
+            fs.renameSync(path.join(innerFolder, file), path.join(hostDir, file));
+          }
+          fs.rmdirSync(innerFolder);
+        }
       }
     } catch (err: any) {
-      return NextResponse.json({ error: 'Failed to clone repository or copy folder', details: err.message }, { status: 500 });
+      return NextResponse.json({ error: 'Failed to download or extract repository', details: err.message }, { status: 500 });
     }
 
     // Step 2: Detect environment & Install dependencies
