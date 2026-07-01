@@ -14,6 +14,7 @@ import { TemplatesEditor }  from '@/components/editors/TemplatesEditor';
 import { AiGeneratorEditor } from '@/components/editors/AiGeneratorEditor';
 import { Button } from '@/components/ui/button';
 import {
+  MessageSquare, User, Layers, MousePointer2, Paperclip,
   BarChart2, Code2, LayoutTemplate, RotateCcw, Trash2, Wand2
 } from 'lucide-react';
 import {
