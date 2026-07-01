@@ -22,11 +22,17 @@ export async function POST(req: Request) {
     // Ensure parent dir exists
     fs.mkdirSync(path.join(os.tmpdir(), 'hookcraft_bots'), { recursive: true });
 
-    // Step 1: Clone the repository
+    // Step 1: Clone the repository or copy local folder
     try {
-      await execAsync(`git clone ${githubUrl} ${hostDir}`);
+      if (githubUrl.toLowerCase().startsWith('c:\\') || githubUrl.toLowerCase().startsWith('d:\\')) {
+        // Copy local folder for local hosting
+        await execAsync(`xcopy "${githubUrl}" "${hostDir}\\" /E /I /H /Y`);
+      } else {
+        // Normal Git clone
+        await execAsync(`git clone ${githubUrl} ${hostDir}`);
+      }
     } catch (err: any) {
-      return NextResponse.json({ error: 'Failed to clone repository', details: err.message }, { status: 500 });
+      return NextResponse.json({ error: 'Failed to clone repository or copy folder', details: err.message }, { status: 500 });
     }
 
     // Step 2: Detect environment & Install dependencies
