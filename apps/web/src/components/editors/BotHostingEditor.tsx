@@ -50,7 +50,7 @@ export function BotHostingEditor() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || 'Failed to deploy bot');
+        throw new Error(data.details ? `${data.error}: ${data.details}` : data.error || 'Failed to deploy bot');
       }
 
       setDeployStep(2); // Building
