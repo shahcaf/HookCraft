@@ -13,7 +13,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
@@ -285,7 +284,7 @@ export function JsonEditor() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
-            <DropdownMenuLabel className="text-[10px] uppercase tracking-wider text-muted-foreground">Load Format</DropdownMenuLabel>
+            <div className="px-2 py-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Load Format</div>
             <DropdownMenuSeparator />
             {EXAMPLES.map((ex) => (
               <DropdownMenuItem key={ex.format} onClick={() => loadExample(ex)} className="text-xs cursor-pointer">
